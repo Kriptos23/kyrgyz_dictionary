@@ -34,11 +34,11 @@ class _WordScreenState extends State<WordScreen> {
       'Authorization': 'Bearer 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',
     };
     final body = jsonEncode({
-      "model": "gpt-4o-mini",
+      "model": "gpt-4o-mini",//-4o-mini
       "stream": true,
       "messages": [
         {"role": "system", "content": "You are a Kyrgyz language teacher."},
-        {"role": "user", "content": "Explain the word '$word' in Kyrgyz with synonyms and examples."}
+        {"role": "user", "content": "Explain the word '$word' in Kyrgyz language with synonyms and examples."}
       ]
     });
 
@@ -68,7 +68,12 @@ class _WordScreenState extends State<WordScreen> {
         }
       }
     } else {
-      yield 'Error: ${streamedResponse.statusCode}';
+      final errorBody = await streamedResponse.stream.bytesToString();
+      yield 'Error: ${streamedResponse.statusCode}: $errorBody';
+      print('Эу '
+          'гдееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее'
+          'ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее');
+      print(streamedResponse.request);
     }
   }
   void _startStreaming(String word) {
@@ -76,6 +81,70 @@ class _WordScreenState extends State<WordScreen> {
     setState(() {});
 
     streamWordExplanation(word).listen((chunk) {
+      setState(() {
+        _result += chunk; // append as it arrives
+      });
+    });
+  }
+
+  Stream<String> streamWordExplanation2(String word, String language) async* {
+    final url = 'https://api.openai.com/v1/responses';
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer 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',
+    };
+    final body = jsonEncode({
+      "model": "gpt-4o-mini", //-4o-mini
+      "stream": true,
+      "prompt":{
+      "id": "pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f",
+      "version": "2",
+      "variables": {
+        "word": "$word",
+        "language": "$language"
+      }
+    },
+    });
+
+    var request = http.Request('POST', Uri.parse(url))
+      ..headers.addAll(headers)
+      ..body = body;
+
+    var streamedResponse = await request.send();
+
+    if (streamedResponse.statusCode != 200) {
+      final errorBody = await streamedResponse.stream.bytesToString();
+      yield 'Error ${streamedResponse.statusCode}: $errorBody';
+      return;
+    }
+
+    // Read streaming chunks
+    await for (var line in streamedResponse.stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())) {
+
+      if (!line.startsWith('data: ')) continue;
+      final jsonStr = line.substring(6).trim();
+      if (jsonStr.isEmpty || jsonStr == '[DONE]') continue;
+
+      try {
+        final data = json.decode(jsonStr);
+
+        // ⚡ Correct parser for Responses API streaming
+        if (data['type'] == 'output_text.delta' && data['delta'] != null) {
+          yield data['delta'];
+        }
+
+      } catch (_) {
+        continue; // skip malformed chunks
+      }
+    }
+  }
+  void _startStreaming2(String word, String language) {
+    _result = "";
+    setState(() {});
+
+    streamWordExplanation2(word, language).listen((chunk) {
       setState(() {
         _result += chunk; // append as it arrives
       });
@@ -148,7 +217,7 @@ class _WordScreenState extends State<WordScreen> {
             SizedBox(height: 12),
             ElevatedButton(
               onPressed: (){
-                _startStreaming(_controller.text.trim());
+                _startStreaming2(_controller.text.trim(), "russian");
                 },
               child: Text("Get Explanation"),
             ),

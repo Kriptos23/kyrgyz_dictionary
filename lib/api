@@ -1,2 +1,19 @@
 
-api = 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;
+api = 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
+
+prompt id definition_1 = pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f
+from openai import OpenAI
+client = OpenAI()
+
+response = client.responses.create(
+  prompt={
+    "id": "pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f",
+    "version": "1",
+    "variables": {
+      "word": "example word",
+      "language": "example language"
+    }
+  }
+)
+
+
