@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
-
 void main() {
   runApp(MyApp());
 }
@@ -12,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       home: WordScreen(),
     );
   }
@@ -27,18 +25,32 @@ class _WordScreenState extends State<WordScreen> {
   final TextEditingController _controller = TextEditingController();
   String _result = "";
 
-  Stream<String> streamWordExplanation(String word) async* {
+  List<String> languageOptions = <String>["Kyrgyz", "Russian", "English"];
+
+  String? selectedLanguage; // stores currently selected value
+
+  @override
+  void initState() {
+    selectedLanguage = languageOptions.first;
+  }
+
+  Stream<String> streamWordExplanation(String word, String language) async* {
     final url = 'https://api.openai.com/v1/chat/completions';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer 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',
+      'Authorization':
+          'Bearer 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',
     };
     final body = jsonEncode({
-      "model": "gpt-4o-mini",//-4o-mini
+      "model": "gpt-4o-mini", //-4o-mini
       "stream": true,
       "messages": [
         {"role": "system", "content": "You are a Kyrgyz language teacher."},
-        {"role": "user", "content": "Explain the word '$word' in Kyrgyz language with synonyms and examples."}
+        {
+          "role": "user",
+          "content": "Explain the word $word from Kyrgyz language chatting with user in $language language, "
+              "provide synonyms and examples in kyrgyz language."
+        }
       ]
     });
 
@@ -49,9 +61,7 @@ class _WordScreenState extends State<WordScreen> {
     var streamedResponse = await request.send();
 
     if (streamedResponse.statusCode == 200) {
-      await for (var line in streamedResponse.stream
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())) {
+      await for (var line in streamedResponse.stream.transform(utf8.decoder).transform(const LineSplitter())) {
         if (line.startsWith('data: ')) {
           final jsonStr = line.substring(6).trim();
           if (jsonStr.isEmpty || jsonStr == '[DONE]') continue;
@@ -76,11 +86,12 @@ class _WordScreenState extends State<WordScreen> {
       print(streamedResponse.request);
     }
   }
-  void _startStreaming(String word) {
+
+  void _startStreaming(String word, String language) {
     _result = "";
     setState(() {});
 
-    streamWordExplanation(word).listen((chunk) {
+    streamWordExplanation(word, language).listen((chunk) {
       setState(() {
         _result += chunk; // append as it arrives
       });
@@ -91,19 +102,17 @@ class _WordScreenState extends State<WordScreen> {
     final url = 'https://api.openai.com/v1/responses';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer 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',
+      'Authorization':
+          'Bearer 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',
     };
     final body = jsonEncode({
       "model": "gpt-4o-mini", //-4o-mini
       "stream": true,
-      "prompt":{
-      "id": "pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f",
-      "version": "2",
-      "variables": {
-        "word": "$word",
-        "language": "$language"
-      }
-    },
+      "prompt": {
+        "id": "pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f",
+        "version": "2",
+        "variables": {"word": "$word", "language": "$language"}
+      },
     });
 
     var request = http.Request('POST', Uri.parse(url))
@@ -119,10 +128,7 @@ class _WordScreenState extends State<WordScreen> {
     }
 
     // Read streaming chunks
-    await for (var line in streamedResponse.stream
-        .transform(utf8.decoder)
-        .transform(const LineSplitter())) {
-
+    await for (var line in streamedResponse.stream.transform(utf8.decoder).transform(const LineSplitter())) {
       if (!line.startsWith('data: ')) continue;
       final jsonStr = line.substring(6).trim();
       if (jsonStr.isEmpty || jsonStr == '[DONE]') continue;
@@ -134,12 +140,12 @@ class _WordScreenState extends State<WordScreen> {
         if (data['type'] == 'output_text.delta' && data['delta'] != null) {
           yield data['delta'];
         }
-
       } catch (_) {
         continue; // skip malformed chunks
       }
     }
   }
+
   void _startStreaming2(String word, String language) {
     _result = "";
     setState(() {});
@@ -150,7 +156,6 @@ class _WordScreenState extends State<WordScreen> {
       });
     });
   }
-
 
   // Future<String> fetchWordExplanation(String word) async {
   //   final url = Uri.parse("https://api.openai.com/v1/chat/completions");
@@ -202,8 +207,29 @@ class _WordScreenState extends State<WordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Kyrgyz Vocab App")),
-      body: Padding(
+      appBar: AppBar
+      (
+        title: Text("Kyrgyz Vocab App"),
+        actions: <Widget>
+        [
+          DropdownButton
+            (
+              value: selectedLanguage,
+              items: languageOptions.map<DropdownMenuItem<String>>((String value)
+              {
+                return DropdownMenuItem<String>(value: value, child: Text(value));
+              }).toList(),
+              onChanged: (String? value){
+                setState(() {
+                  selectedLanguage = value!;
+                });
+              },
+              underline: Container(color: Colors.deepPurple, height: 3,),
+            )
+        ]
+      ),
+      body: Padding
+      (
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -212,13 +238,14 @@ class _WordScreenState extends State<WordScreen> {
               decoration: InputDecoration(
                 labelText: "Enter a Kyrgyz word",
                 border: OutlineInputBorder(),
+
               ),
             ),
             SizedBox(height: 12),
             ElevatedButton(
-              onPressed: (){
-                _startStreaming2(_controller.text.trim(), "russian");
-                },
+              onPressed: () {
+                _startStreaming(_controller.text.trim(), selectedLanguage!);
+              },
               child: Text("Get Explanation"),
             ),
             SizedBox(height: 20),
