@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'botttom_nav_bar.dart';
 
 class SozdukScreen extends StatefulWidget {
   const SozdukScreen({super.key});
@@ -21,14 +23,16 @@ class _SozdukScreenState extends State<SozdukScreen>
 
   final TextEditingController _controller = TextEditingController();
 
-  int _currentIndex = 0;
-  final List<String> _routes = ['/', '/sozdor'];
-  void _onTabTapped(int index) {
-    if (index != _currentIndex) {
-      setState(() => _currentIndex = index);
-      Navigator.pushReplacementNamed(context, _routes[index]);
-    }
-  }
+  BottomNavBar bottomNavBarWidget = BottomNavBar(0);
+
+  // int _currentIndex = 0;
+  // final List<String> _routes = ['/', '/sozdor'];
+  // void _onTabTapped(int index) {
+  //   if (index != _currentIndex) {
+  //     setState(() => _currentIndex = index);
+  //     Navigator.pushReplacementNamed(context, _routes[index]);
+  //   }
+  // }
 
   ///METHODS
   @override
@@ -81,13 +85,7 @@ class _SozdukScreenState extends State<SozdukScreen>
             )
           ]
       ),
-      bottomNavigationBar: BottomNavigationBar(currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "/"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "/sozdor"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],),
+      bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
       body: Padding
         (
         padding: const EdgeInsets.all(16.0),
