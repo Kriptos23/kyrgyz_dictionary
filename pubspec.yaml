@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.1
+  flutter_card_swiper: ^7.0.2
+  flip_card: ^0.7.0
   #
 
 
