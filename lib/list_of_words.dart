@@ -1,6 +1,6 @@
-import 'package:kyrgyz_dictionary/Screens/words_class.dart';
+import 'package:kyrgyz_dictionary/classes/words_class.dart';
 
-List<Words> easyWords = [
+List<Words> easyWords1 = [
   Words(
     word: "алма",
     rusTrans: "яблоко",

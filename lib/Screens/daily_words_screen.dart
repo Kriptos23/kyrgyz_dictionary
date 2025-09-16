@@ -2,9 +2,9 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter/cupertino.dart';
-import '../botttom_nav_bar.dart';
+import '../widgets/botttom_nav_bar_widget.dart';
 import 'package:kyrgyz_dictionary/list_of_words.dart';
-import 'package:kyrgyz_dictionary/flip_cards.dart';
+import 'package:kyrgyz_dictionary/widgets/flip_cards_widget.dart';
 
 class DailyWords extends StatefulWidget {
   const DailyWords({super.key});
@@ -50,7 +50,7 @@ class _DailyWordsState extends State<DailyWords> {
             Flexible(
               child: CardSwiper(
                 isDisabled: _onSwipe(0),
-                cardsCount: easyWords.length,
+                cardsCount: easyWords1.length,
                 cardBuilder: (context, index, percentThresholdX, percentThresholdY) => buildFlipCards()[index],
                 onSwipe: (previousIndex, currentIndex, direction) {
                   cardIndex = currentIndex!;
@@ -69,7 +69,7 @@ class _DailyWordsState extends State<DailyWords> {
             SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
-                if(_textController.text.trim() == easyWords[cardIndex].rusTrans){
+                if(_textController.text.trim() == easyWords1[cardIndex].rusTrans){
                   // buildFlipCards()[0].toggleCard();
                   showDialog(
                     context: context,
@@ -85,10 +85,10 @@ class _DailyWordsState extends State<DailyWords> {
                                 // if(isNewCard == true && rightAnswersCounter<10){
                                 //   rightAnswersCounter++;
                                 // }
-                                if(!easyWords[cardIndex].isCorrectlyAnswered){
-                                  easyWords[cardIndex].isCorrectlyAnswered = true;
+                                if(!easyWords1[cardIndex].isCorrectlyAnswered){
+                                  easyWords1[cardIndex].isCorrectlyAnswered = true;
                                   rightAnswersCounter++;
-                                  easyWords[cardIndex].changeColorIfRight = Colors.lightGreen;
+                                  easyWords1[cardIndex].changeColorIfRight = Colors.lightGreen;
                                 }
                               });
                               isNewCard = false;
@@ -111,6 +111,11 @@ class _DailyWordsState extends State<DailyWords> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(); // closes the popup
+                              setState(() {
+                                easyWords1[cardIndex].isCorrectlyAnswered = false;
+                                rightAnswersCounter--;
+                                easyWords1[cardIndex].changeColorIfRight = Colors.red;
+                              });
                             },
                             child: const Text("Close"),
                           ),

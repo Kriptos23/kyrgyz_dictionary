@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../api_service.dart';
 import 'package:flutter/cupertino.dart';
-import '../botttom_nav_bar.dart';
+import '../widgets/botttom_nav_bar_widget.dart';
 
 class SozdukScreen extends StatefulWidget {
   const SozdukScreen({super.key});
