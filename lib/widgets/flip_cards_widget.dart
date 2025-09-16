@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 import 'package:kyrgyz_dictionary/list_of_words.dart';
 
-List<FlipCard> buildFlipCards() {
+List<FlipCard> buildFlipCards(List<Words> listOfWords) {
   List<FlipCard> cards = [];
-  for (var i = 0; i < easyWords1.length; i++) {
+  for (var i = 0; i < listOfWords.length; i++) {
     cards.add(
       FlipCard(
         key: ValueKey('card$i'),
         front: Container(
           alignment: Alignment.center,
-          color: easyWords1[i].changeColorIfRight,
+          color: listOfWords[i].changeColorIfRight,
           child: Text(
-            '${easyWords1[i].word}',
+            '${listOfWords[i].word}',
             style: const TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),
@@ -23,7 +23,7 @@ List<FlipCard> buildFlipCards() {
           alignment: Alignment.center,
           color: Colors.green,
           child: Text(
-            '${easyWords1[i].rusTrans}',
+            '${listOfWords[i].rusTrans}',
             style: const TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),

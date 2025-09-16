@@ -52,3 +52,56 @@ List<Words> easyWords1 = [
     img: " ", // bread
   ),
 ];
+
+List<Words> easyWords2 = [
+  Words(
+    word: "саат",
+    rusTrans: "часы",
+    img: " ", // clock
+  ),
+  Words(
+    word: "такта",
+    rusTrans: "доска",
+    img: " ", // board
+  ),
+  Words(
+    word: "кыз",
+    rusTrans: "девочка",
+    img: " ", // girl
+  ),
+  Words(
+    word: "бала",
+    rusTrans: "ребенок",
+    img: " ", // child
+  ),
+  Words(
+    word: "суу",
+    rusTrans: "вода",
+    img: " ", // water
+  ),
+  Words(
+    word: "апельсин",
+    rusTrans: "апельсин",
+    img: " ", // orange
+  ),
+  Words(
+    word: "терезе",
+    rusTrans: "окно",
+    img: " ", // window
+  ),
+  Words(
+    word: "кызыл",
+    rusTrans: "красный",
+    img: " ", // red
+  ),
+  Words(
+    word: "кара",
+    rusTrans: "черный",
+    img: " ", // black
+  ),
+  Words(
+    word: "жашыл",
+    rusTrans: "зеленый",
+    img: " ", // green
+  ),
+];
