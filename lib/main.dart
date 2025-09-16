@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kyrgyz_dictionary/daily_words.dart';
-import 'sozduk_screen.dart';
+import 'package:kyrgyz_dictionary/Screens/daily_words.dart';
+import 'Screens/sozduk_screen.dart';
 
 void main() {
   runApp(MyApp());

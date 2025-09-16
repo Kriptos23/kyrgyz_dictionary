@@ -21,9 +21,9 @@ class BottomNavBar{
       currentIndex: _currentIndex,
       onTap:(index) => _onTabTapped(index, context, updater),
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "/"),
-        BottomNavigationBarItem(icon: Icon(CupertinoIcons.chevron_up_square), label: "/sozdor"),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: "ИИ Переводчик"),
+        BottomNavigationBarItem(icon: Icon(CupertinoIcons.chevron_up_square), label: "игра сөздөр"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "В разработке"),
       ],);
   }
 }
