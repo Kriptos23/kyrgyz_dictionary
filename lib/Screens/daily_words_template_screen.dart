@@ -10,8 +10,10 @@ import 'package:kyrgyz_dictionary/widgets/flip_cards_widget.dart';
 class DailyWordsTemplateScreen extends StatefulWidget {
   final List<Words> listOfWords;
   final bool ifSetIsDone;
+  final int rightAnswersCounter;
 
-  const DailyWordsTemplateScreen({super.key,required this.listOfWords, this.ifSetIsDone=false});
+  const DailyWordsTemplateScreen({super.key, required this.listOfWords, this.ifSetIsDone=false, required this.rightAnswersCounter
+  });
 
   @override
   State<DailyWordsTemplateScreen> createState() => _DailyWordsTemplateScreenState();
@@ -20,6 +22,8 @@ class DailyWordsTemplateScreen extends StatefulWidget {
 class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
   List<Words>? listOfWordsPointer;
   bool? ifSetIsDonePointer;
+  late int rightAnswersCounterPointer;
+
 
   BottomNavBar bottomNavBarWidget = BottomNavBar(1);
 
@@ -29,7 +33,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
 
   int cardIndex = 0;
 
-  int rightAnswersCounter = 0;
+
   bool isNewCard = true;
 
   @override
@@ -37,6 +41,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
     super.initState();
     listOfWordsPointer = widget.listOfWords; // pointer (shared reference)
     ifSetIsDonePointer = widget.ifSetIsDone;
+    rightAnswersCounterPointer = widget.rightAnswersCounter;
   }
 
   bool _onSwipe(int index){
@@ -54,95 +59,108 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
-        body: Column(
-          children: [
-            Text('$rightAnswersCounter/10', style: TextStyle(color: Colors.lightGreen, fontSize: 15),),
-            Flexible(
-              child: CardSwiper(
-                isDisabled: _onSwipe(0),
-                cardsCount: listOfWordsPointer!.length,
-                cardBuilder: (context, index, percentThresholdX, percentThresholdY) => buildFlipCards(listOfWordsPointer!)[index],
-                onSwipe: (previousIndex, currentIndex, direction) {
-                  cardIndex = currentIndex!;
-                  isNewCard = true;
-                  return true; // 👈 must return true to allow the swipe
-                },
+      child: PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (bool didPop, Object? result) async{
+          if (didPop) return; // already popped
+          // Navigator.of(context).pop(rightAnswersCounterPointer);
+          Navigator.pop(context, rightAnswersCounterPointer);
+        },
+        child: Scaffold(
+          bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
+          body: Column(
+            children: [
+              Text('$rightAnswersCounterPointer/10', style: TextStyle(color: Colors.lightGreen, fontSize: 15),),
+              Flexible(
+                child: CardSwiper(
+                  isDisabled: _onSwipe(0),
+                  cardsCount: listOfWordsPointer!.length,
+                  cardBuilder: (context, index, percentThresholdX, percentThresholdY) => buildFlipCards(listOfWordsPointer!)[index],
+                  onSwipe: (previousIndex, currentIndex, direction) {
+                    cardIndex = currentIndex!;
+                    isNewCard = true;
+                    return true; // 👈 must return true to allow the swipe
+                  },
+                ),
               ),
-            ),
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                labelText: "давай поиграем!",
-                border: OutlineInputBorder(),
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(
+                  labelText: "давай поиграем!",
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {
-                if(_textController.text.trim() == listOfWordsPointer![cardIndex].rusTrans){
-                  // buildFlipCards()[0].toggleCard();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Азамат!", style: TextStyle(color: Colors.lightGreen),),
-                        content: const Text("You are right!"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // closes the popup
-                              setState((){
-                                // if(isNewCard == true && rightAnswersCounter<10){
-                                //   rightAnswersCounter++;
-                                // }
-                                if(!listOfWordsPointer![cardIndex].isCorrectlyAnswered){
-                                  listOfWordsPointer![cardIndex].isCorrectlyAnswered = true;
-                                  rightAnswersCounter++;
-                                  if(rightAnswersCounter==10){
-                                    ifSetIsDonePointer = true;
+              SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () {
+                  if(_textController.text.trim() == listOfWordsPointer![cardIndex].rusTrans){
+                    // buildFlipCards()[0].toggleCard();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Азамат!", style: TextStyle(color: Colors.lightGreen),),
+                          content: const Text("You are right!"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // closes the popup
+                                setState((){
+                                  // if(isNewCard == true && rightAnswersCounter<10){
+                                  //   rightAnswersCounter++;
+                                  // }
+                                  if(!listOfWordsPointer![cardIndex].isCorrectlyAnswered){
+                                    listOfWordsPointer![cardIndex].isCorrectlyAnswered = true;
+                                    rightAnswersCounterPointer++;
+                                    if(rightAnswersCounterPointer==10){
+                                      ifSetIsDonePointer = true;
+                                    }
+                                    listOfWordsPointer![cardIndex].changeColorIfRight = Colors.lightGreen;
                                   }
-                                  listOfWordsPointer![cardIndex].changeColorIfRight = Colors.lightGreen;
-                                }
-                              });
-                              isNewCard = false;
-                            },
-                            child: const Text("Close"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-                else{
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
-                        content: const Text("Try again!"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // closes the popup
-                              setState(() {
-                                listOfWordsPointer![cardIndex].isCorrectlyAnswered = false;
-                                rightAnswersCounter--;
-                                listOfWordsPointer![cardIndex].changeColorIfRight = Colors.red;
-                              });
-                            },
-                            child: const Text("Close"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-              child: Text("Get Explanation"),
-            ),
-          ],
+                                });
+                                isNewCard = false;
+                              },
+                              child: const Text("Close"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                  else{
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
+                          content: const Text("Try again!"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // closes the popup
+                                setState(() {
+                                  listOfWordsPointer![cardIndex].isCorrectlyAnswered = false;
+                                  rightAnswersCounterPointer--;
+                                  listOfWordsPointer![cardIndex].changeColorIfRight = Colors.red;
+                                });
+                              },
+                              child: const Text("Close"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Text("Get Explanation"),
+              ),
+              ElevatedButton(onPressed: (){
+                setState(() {
+                  Navigator.pop(context, rightAnswersCounterPointer);
+                });
+              }, child: Text('go back'))
+            ],
+          ),
         ),
       ),
     );
