@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService{
 
 
   static Stream<String> streamWordExplanation(String word, String language) async* {
-    final url = 'https://api.openai.com/v1/chat/completions';
+    const url = 'https://api.openai.com/v1/chat/completions';
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer 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',
+      'Bearer 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',
     };
     final body = jsonEncode({
       "model": "gpt-4o-mini", //-4o-mini
@@ -64,7 +63,7 @@ class ApiService{
 
   ///This methods supposed to use prompt with responses instead of chat completions but not working
   static Stream<String> streamWordExplanation2(String word, String language) async* {
-    final url = 'https://api.openai.com/v1/responses';
+    const url = 'https://api.openai.com/v1/responses';
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
@@ -76,7 +75,7 @@ class ApiService{
       "prompt": {
         "id": "pmpt_68b0ee1bd4d08195b4b02fb03ce446c40feef3a8dd85221f",
         "version": "2",
-        "variables": {"word": "$word", "language": "$language"}
+        "variables": {"word": word, "language": language}
       },
     });
 

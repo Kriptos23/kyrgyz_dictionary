@@ -3,7 +3,6 @@ import 'package:kyrgyz_dictionary/classes/words_class.dart';
 import 'package:flutter/material.dart';
 
 
-import 'package:kyrgyz_dictionary/list_of_words.dart';
 
 List<FlipCard> buildFlipCards(List<Words> listOfWords) {
   List<FlipCard> cards = [];

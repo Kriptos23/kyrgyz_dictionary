@@ -1,10 +1,7 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:flutter/cupertino.dart';
 import '../classes/words_class.dart';
 import '../widgets/botttom_nav_bar_widget.dart';
-import 'package:kyrgyz_dictionary/list_of_words.dart';
 import 'package:kyrgyz_dictionary/widgets/flip_cards_widget.dart';
 
 class DailyWordsTemplateScreen extends StatefulWidget {
@@ -60,7 +57,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: PopScope(
-        canPop: true,
+        canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) async{
           if (didPop) return; // already popped
           // Navigator.of(context).pop(rightAnswersCounterPointer);
@@ -70,7 +67,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
           bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
           body: Column(
             children: [
-              Text('$rightAnswersCounterPointer/10', style: TextStyle(color: Colors.lightGreen, fontSize: 15),),
+              Text('$rightAnswersCounterPointer/10', style: const TextStyle(color: Colors.lightGreen, fontSize: 15),),
               Flexible(
                 child: CardSwiper(
                   isDisabled: _onSwipe(0),
@@ -85,12 +82,12 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
               ),
               TextField(
                 controller: _textController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "давай поиграем!",
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () {
                   if(_textController.text.trim() == listOfWordsPointer![cardIndex].rusTrans){
@@ -152,13 +149,13 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
                     );
                   }
                 },
-                child: Text("Get Explanation"),
+                child: const Text("Get Explanation"),
               ),
               ElevatedButton(onPressed: (){
                 setState(() {
                   Navigator.pop(context, rightAnswersCounterPointer);
                 });
-              }, child: Text('go back'))
+              }, child: const Text('go back'))
             ],
           ),
         ),

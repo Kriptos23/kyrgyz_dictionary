@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../api_service.dart';
-import 'package:flutter/cupertino.dart';
+import '../services/api_service.dart';
 import '../widgets/botttom_nav_bar_widget.dart';
 
 class SozdukScreen extends StatefulWidget {
@@ -66,7 +65,7 @@ class _SozdukScreenState extends State<SozdukScreen>
     return Scaffold(
       appBar: AppBar
         (
-          title: Text("Kyrgyz Vocab App"),
+          title: const Text("Kyrgyz Vocab App Demo"),
           actions: <Widget>
           [
             DropdownButton
@@ -93,25 +92,25 @@ class _SozdukScreenState extends State<SozdukScreen>
           children: [
             TextField(
               controller: _controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Enter a Kyrgyz word",
                 border: OutlineInputBorder(),
 
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
                 _startStreaming(_controller.text.trim(), selectedLanguage!);
               },
-              child: Text("Get Explanation"),
+              child: const Text("Get Explanation"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
                   _result,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),

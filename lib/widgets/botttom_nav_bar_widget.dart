@@ -6,7 +6,7 @@ class BottomNavBar{
   int _currentIndex;
 
   BottomNavBar(this.initialIndex) : _currentIndex = initialIndex;
-  final List<String> _routes = ['/', '/sozdor'];
+  final List<String> _routes = ['/', '/sozdor', '/authentification'];
   void _onTabTapped(int index, BuildContext context, void Function(VoidCallback) updater) {
     if (index != _currentIndex) {
       updater((){

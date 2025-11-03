@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "308251536087",
+    "project_id": "kyrgyz-dictionary-6fb97",
+    "storage_bucket": "kyrgyz-dictionary-6fb97.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308251536087:android:644598832b84836ce11e92",
+        "android_client_info": {
+          "package_name": "com.danielkuvan.kyrgyz_dictionary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIqfRVIRjB6ZbLvPsdOF8Ve2tYz774B1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

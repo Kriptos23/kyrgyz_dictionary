@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Words{
-  String? word;
-  String? rusTrans;
-  String? img;
+  ///This is Words class that we use in our flipcards
+
+  String? word;//words itself
+  String? rusTrans;//translation
+  String? img;//image of word, not yet implemented
   bool isCorrectlyAnswered;
   Color changeColorIfRight;
 

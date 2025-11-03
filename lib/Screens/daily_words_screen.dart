@@ -1,10 +1,6 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:flutter/cupertino.dart';
 import '../widgets/botttom_nav_bar_widget.dart';
 import 'package:kyrgyz_dictionary/list_of_words.dart';
-import 'package:kyrgyz_dictionary/widgets/flip_cards_widget.dart';
 
 import 'daily_words_template_screen.dart';
 
@@ -20,14 +16,9 @@ class _DailyWordsState extends State<DailyWords> {
   BottomNavBar bottomNavBarWidget = BottomNavBar(1);
   int? counter1;
 
-  int ifNullCounter(){
-    if(counter1 == null){
-      return 0;
+  int ifNullCounter(int count){
+    return count;
     }
-    else{
-      return counter1!;
-    }
-  }
 
   int? test;
   late int counter2;
@@ -37,7 +28,8 @@ class _DailyWordsState extends State<DailyWords> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
+        bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),//Bottom NavBar object that we created
+        // ourselves
         body: Column(
           children: [
             InkWell(
@@ -45,8 +37,7 @@ class _DailyWordsState extends State<DailyWords> {
                    final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter:
-                      ifNullCounter(),),
+                      builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter: counter1 ?? 0),
                       // replace with your screen
                       // class
                     ),
@@ -58,9 +49,9 @@ class _DailyWordsState extends State<DailyWords> {
                    }
               },
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 color: Colors.green,
-                child: Text("Level 1\n${ifNullCounter()}/10"),
+                child: Text("Level 1\n${counter1??0}/10"),
               ),
             ),
             ElevatedButton(
@@ -68,7 +59,8 @@ class _DailyWordsState extends State<DailyWords> {
                 final counter = Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter: ifNullCounter(),
+                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter: ifNullCounter
+                      (counter2),
                     ), //
                     // replace with your
                     // screen
@@ -76,9 +68,9 @@ class _DailyWordsState extends State<DailyWords> {
                   ),
                 );
               },
-              child: Text("Go to next screen"),
+              child: const Text("Go to next screen"),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -91,9 +83,9 @@ class _DailyWordsState extends State<DailyWords> {
                   ),
                 );
               },
-              child: Text("Go to next screen"),
+              child: const Text("Go to next screen"),
             ),
-            Text('$counter1', style: TextStyle(fontSize: 20, color: Colors.red),),
+            Text('$counter1', style: const TextStyle(fontSize: 20, color: Colors.red),),
           ],
         ),
       ),
