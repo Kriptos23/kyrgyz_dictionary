@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class BottomNavBar{
   final int initialIndex;
   int _currentIndex;
-
+    // why isn't it getting updated
   BottomNavBar(this.initialIndex) : _currentIndex = initialIndex;
   final List<String> _routes = ['/sozduk', '/sozdor', '/menin_profilim'];
   void _onTabTapped(int index, BuildContext context, void Function(VoidCallback) updater) {
