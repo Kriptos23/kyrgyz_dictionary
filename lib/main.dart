@@ -1,6 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:kyrgyz_dictionary/Screens/Authenticate/wrapper.dart';
 import 'package:kyrgyz_dictionary/Screens/daily_words_screen.dart';
+import 'package:kyrgyz_dictionary/classes/our_user.dart';
+import 'package:kyrgyz_dictionary/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'Screens/Authenticate/my_profile.dart';
 import 'Screens/Authenticate/sign_in.dart';
 import 'Screens/sozduk_screen.dart';
 
@@ -22,15 +27,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes:
-      {
-        '/':(context) => const SozdukScreen(),
-        '/sozdor':(context) => const DailyWords(),
-        '/authentification':(context) => const SignIn(),
-      },
+    return StreamProvider.value(//this is our Provider package's class we can use to listen to Stream
+      value: AuthService().user,//This must listen to the Stream from .user method
+      initialData: null,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes:
+        {
+          '/':(context) => const Wrapper(),
+          '/sozduk':(context) => const SozdukScreen(),
+          '/sozdor':(context) => const DailyWords(),
+          '/menin_profilim':(context) => const MyProfile(),
+          '/sign_in':(context) => const SignIn(),
+        },
+      ),
     );
   }
 }

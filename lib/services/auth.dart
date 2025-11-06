@@ -9,7 +9,9 @@ class AuthService {
     return user1 != null ? OurUser(uid: '${user1.uid}') : null;//creates OurUser obj from Firebase user obj
   }
 
-  Stream<OurUser?> get user {
+  ///Насколько я понял, позже надо будет .listen() использовать на этом геттере, или можно Provider, SteamProvider заюзать
+  ///чтобы было легче использовать вместо листен
+  Stream<OurUser?> get user {//we indicated in the carrot brackets that we want it to return Stream of OurUser obj
     print('user getter is used');
     return _auth.authStateChanges().map((User? user) {
       return user != null ? _userFromFirebase(user) : null;
@@ -32,4 +34,18 @@ class AuthService {
   }
 
 // sign in Google
+
+// sign out
+  Future signOut() async
+  {
+    try{
+     _auth.signOut();
+     print("User signed out");
+    }
+    catch(e)
+    {
+      print(e.toString());
+      return null;
+    }
+  }
 }

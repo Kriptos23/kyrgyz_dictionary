@@ -6,13 +6,16 @@ class BottomNavBar{
   int _currentIndex;
 
   BottomNavBar(this.initialIndex) : _currentIndex = initialIndex;
-  final List<String> _routes = ['/', '/sozdor', '/authentification'];
+  final List<String> _routes = ['/sozduk', '/sozdor', '/menin_profilim'];
   void _onTabTapped(int index, BuildContext context, void Function(VoidCallback) updater) {
     if (index != _currentIndex) {
       updater((){
         _currentIndex = index;
       });
-      Navigator.pushReplacementNamed(context, _routes[index]);
+      // Navigator.pushReplacementNamed(context, _routes[index]);
+      // Navigator.pushNamed(context, _routes[index]);
+      Navigator.pushReplacementNamed (context, _routes[index]);
+      // Navigator.pop(context);
     }
   }
 
