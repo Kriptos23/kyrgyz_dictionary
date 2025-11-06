@@ -15,22 +15,27 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child:
+      Scaffold(
         appBar: AppBar(title: const Text("Menin Profilim"),),
-        bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
-        body: Column(
-          children: [
-            Container(
-              padding:  EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: ElevatedButton(child: const Text('Log Out'),
-                  onPressed: ()async{
-                    dynamic result = await _auth.signOut();//method from auth.dart, should return null or OurUser obj
-                    // if(result == null) {
-                    //   Navigator.pushNamed(context, '/sign_in');
-                    // }
-                  }),
-            )
-          ],
+        // bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
+        body:
+        Center(
+          child:
+          Column(
+            children: [
+              Container(
+                padding:  EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                child: ElevatedButton(child: const Text('Log Out'),
+                    onPressed: ()async{
+                      dynamic result = await _auth.signOut();//method from auth.dart, should return null or OurUser obj
+                      // if(result == null) {
+                      //   Navigator.pushNamed(context, '/sign_in');
+                      // }
+                    }),
+              )
+            ],
+          ),
         ),
       ),
     );

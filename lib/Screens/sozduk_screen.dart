@@ -62,7 +62,8 @@ class _SozdukScreenState extends State<SozdukScreen>
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: AppBar
         (
           title: const Text("Kyrgyz Vocab App Demo"),
@@ -84,8 +85,9 @@ class _SozdukScreenState extends State<SozdukScreen>
             )
           ]
       ),
-      bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
-      body: Padding
+      // bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
+      body:
+      Padding
         (
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -116,7 +118,7 @@ class _SozdukScreenState extends State<SozdukScreen>
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }

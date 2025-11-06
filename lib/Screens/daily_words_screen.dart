@@ -27,10 +27,12 @@ class _DailyWordsState extends State<DailyWords> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),//Bottom NavBar object that we created
+      child:
+      Scaffold(
+        // bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),//Bottom NavBar object that we created
         // ourselves
-        body: Column(
+        body:
+        Column(
           children: [
             InkWell(
               onTap: () async {

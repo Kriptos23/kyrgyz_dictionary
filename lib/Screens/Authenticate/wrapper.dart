@@ -5,6 +5,8 @@ import 'package:kyrgyz_dictionary/Screens/sozduk_screen.dart';
 import 'package:kyrgyz_dictionary/classes/our_user.dart';
 import 'package:provider/provider.dart';
 
+import '../Navigation.dart';
+
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
   @override
@@ -15,7 +17,7 @@ class Wrapper extends StatelessWidget {
       return SignIn();
     }
     else{
-      return MyProfile();
+      return Navigation();
     }
   }
 }
