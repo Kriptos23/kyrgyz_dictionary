@@ -13,7 +13,7 @@ class DailyWords extends StatefulWidget {
 
 class _DailyWordsState extends State<DailyWords> {
 
-  BottomNavBar bottomNavBarWidget = BottomNavBar(1);
+  // BottomNavBar bottomNavBarWidget = BottomNavBar(1);
   int? counter1;
 
   int ifNullCounter(int count){

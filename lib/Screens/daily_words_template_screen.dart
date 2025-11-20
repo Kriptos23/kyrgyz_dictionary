@@ -22,7 +22,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
   late int rightAnswersCounterPointer;
 
 
-  BottomNavBar bottomNavBarWidget = BottomNavBar(1);
+  // BottomNavBar bottomNavBarWidget = BottomNavBar(1);
 
   final CardSwiperController controller = CardSwiperController();
 
@@ -64,7 +64,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
           Navigator.pop(context, rightAnswersCounterPointer);
         },
         child: Scaffold(
-          bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
+          // bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
           body: Column(
             children: [
               Text('$rightAnswersCounterPointer/10', style: const TextStyle(color: Colors.lightGreen, fontSize: 15),),

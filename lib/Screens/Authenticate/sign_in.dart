@@ -34,6 +34,19 @@ class _SignInState extends State<SignIn> {
                       print(result.uid);
                     }
                   }),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+              child: ElevatedButton(child: Text('Sign in with Google'),
+                  onPressed: ()async{
+                    dynamic result = await _auth.signInWithGoogle();//method from auth.dart, should return null or OurUser obj
+                    if(result == null){
+                      print('error signing in');
+                    }else{
+                      print('signed in');
+                      print(result.uid);
+                    }
+                  }),
             )
           ],
         ),

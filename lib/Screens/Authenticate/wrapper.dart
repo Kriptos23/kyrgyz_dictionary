@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyrgyz_dictionary/Screens/Authenticate/my_profile.dart';
 import 'package:kyrgyz_dictionary/Screens/Authenticate/sign_in.dart';
 import 'package:kyrgyz_dictionary/Screens/sozduk_screen.dart';
@@ -14,6 +15,7 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<OurUser?>(context);
 
     if(user == null){
+      // GoogleSignIn.instance.initialize();
       return SignIn();
     }
     else{

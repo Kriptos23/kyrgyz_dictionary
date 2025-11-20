@@ -12,11 +12,15 @@ import 'Screens/sozduk_screen.dart';
 Future <void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "kyrgyz-dictionary-6fb97",
     options: FirebaseOptions(
-      apiKey: "AIzaSyAIqfRVIRjB6ZbLvPsdOF8Ve2tYz774B1E", // Your apiKey
-      appId: "1:308251536087:android:644598832b84836ce11e92", // Your appId
-      messagingSenderId: "308251536087", // Your messagingSenderId
-      projectId: "kyrgyz-dictionary-6fb97", // Your projectId
+        apiKey: "AIzaSyD5HvXDXe19-NkteCb-_ZXW_NXwgDZ8Gsk",
+        authDomain: "kyrgyz-dictionary-6fb97.firebaseapp.com",
+        projectId: "kyrgyz-dictionary-6fb97",
+        storageBucket: "kyrgyz-dictionary-6fb97.firebasestorage.app",
+        messagingSenderId: "308251536087",
+        appId: "1:308251536087:web:d72d8b2d707cf076e11e92",
+        measurementId: "G-LYQCE3S6XE"
     ),
   );
   runApp(const MyApp());
