@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kyrgyz_dictionary/classes/our_user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kyrgyz_dictionary/services/firestore_cloud_database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -111,11 +112,20 @@ class AuthService {
       final userCredential = await _auth.signInWithCredential(credential);
       final user = userCredential.user;
 
+      ///Here we are creating collections and documents for the levels counter and more
+      DatabaseService databaseService = DatabaseService(uid: user!.uid);
+      databaseService.createUserDataOnFirstLogin();
+
       return _userFromFirebase(user!);
     } catch (e) {
       print('Google Sign-In error: $e');
       return null;
     }
+  }
+
+  Future<String?> get uid async{
+    final user = await signInWithGoogleMobile();
+    return user?.uid;
   }
 
 // sign out

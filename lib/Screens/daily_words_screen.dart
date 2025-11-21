@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../services/auth.dart';
+import '../services/firestore_cloud_database.dart';
 import '../widgets/botttom_nav_bar_widget.dart';
 import 'package:kyrgyz_dictionary/list_of_words.dart';
 
@@ -12,9 +15,26 @@ class DailyWords extends StatefulWidget {
 }
 
 class _DailyWordsState extends State<DailyWords> {
+  late final DatabaseService databaseService;
+
+  @override
+  void initState(){
+    super.initState();
+    databaseService = DatabaseService(uid: uid);// initialize database service using late because we can not initialize
+    _loadRightAnswersCounter('easy', 'level1',);
+  }
+
+  Future<void> _loadRightAnswersCounter(String difficulty, String level) async {
+    final value = await databaseService.getLevelCounter(difficulty, level);
+    setState(() {
+      counterEasy1 = value;
+    });
+  }
 
   // BottomNavBar bottomNavBarWidget = BottomNavBar(1);
-  int? counter1;
+  AuthService _auth = AuthService();//auth obj from our self-made class to use sign-in functions
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  late int counterEasy1;
 
   int ifNullCounter(int count){
     return count;
@@ -39,21 +59,25 @@ class _DailyWordsState extends State<DailyWords> {
                    final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter: counter1 ?? 0),
+                      builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, difficulty: 'easy', level: 'level'
+                          '1', uid: uid,
+                      ),
                       // replace with your screen
                       // class
                     ),
                   );
                    if (result != null) {
-                     setState(() {
-                       counter1 = result; // store it in a variable in your first screen
+                     setState(() async {
+                       // counterEasy1 = await databaseService.getLevelCounter('easy', 'level1'); // store it in a variable in your first
+                       // screen'
+                       _loadRightAnswersCounter('easy', 'level1');
                      });
                    }
               },
               child: Container(
                 padding: const EdgeInsets.all(20),
                 color: Colors.green,
-                child: Text("Level 1\n${counter1??0}/10"),
+                child: Text("Level 1\n${counterEasy1??0}/10"),
               ),
             ),
             ElevatedButton(
@@ -61,9 +85,8 @@ class _DailyWordsState extends State<DailyWords> {
                 final counter = Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, rightAnswersCounter: ifNullCounter
-                      (counter2),
-                    ), //
+                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, difficulty: 'easy', level: 'level'
+                        '1', uid: uid,) //
                     // replace with your
                     // screen
                     // class
@@ -78,16 +101,15 @@ class _DailyWordsState extends State<DailyWords> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords2, rightAnswersCounter: counter3,
-                      //rightAnswersCounter: counter2,
-                  ), //
+                    builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, difficulty: 'easy', level: 'level'
+                        '1', uid: uid,) //
                     // replace with your screen class
                   ),
                 );
               },
               child: const Text("Go to next screen"),
             ),
-            Text('$counter1', style: const TextStyle(fontSize: 20, color: Colors.red),),
+            Text('$counterEasy1', style: const TextStyle(fontSize: 20, color: Colors.red),),
           ],
         ),
       ),
