@@ -13,26 +13,56 @@ class DatabaseService
         .collection('WordCardsDifficulty');
 
     // Check if the "easy" document exists (if it does → user data exists)
-    final easyDoc = await levelsRef.doc('easy').get();
+    final easyDoc = await levelsRef.doc('easy').collection('levels').doc('level1').get();
 
     if (!easyDoc.exists) {
       // Create all default difficulty documents
-      await levelsRef.doc('easy').set({
-        'level1': 0,
-        'level2': 0,
-        'level3': 0,
+      await levelsRef.doc('easy').collection('levels').doc('level1').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('easy').collection('levels').doc('level2').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('easy').collection('levels').doc('level3').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
       });
 
-      await levelsRef.doc('medium').set({
-        'level1': 0,
-        'level2': 0,
-        'level3': 0,
+      await levelsRef.doc('medium').collection('levels').doc('level1').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('medium').collection('levels').doc('level2').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('medium').collection('levels').doc('level3').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
       });
 
-      await levelsRef.doc('hard').set({
-        'level1': 0,
-        'level2': 0,
-        'level3': 0,
+      await levelsRef.doc('hard').collection('levels').doc('level1').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('hard').collection('levels').doc('level2').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+      await levelsRef.doc('hard').collection('levels').doc('level3').set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
       });
 
       print("User data created for the first time!");
@@ -40,6 +70,43 @@ class DatabaseService
       print("User already exists – no need to create.");
     }
   }
+
+  /*
+  *
+  * Future<void> createUserDataOnFirstLogin() async {
+  final diffRef = usersCollection.doc(uid).collection('WordCardsDifficulty');
+
+  // Check only one document (easy → level1)
+  final exists = await diffRef
+      .doc('easy')
+      .collection('levels')
+      .doc('level1')
+      .get();
+
+  if (exists.exists) {
+    print("User already exists – no need to create.");
+    return;
+  }
+
+  print("Creating user levels data…");
+
+  final difficulties = ['easy', 'medium', 'hard'];
+  final levels = ['level1', 'level2', 'level3'];
+
+  for (final diff in difficulties) {
+    for (final lvl in levels) {
+      await diffRef.doc(diff).collection('levels').doc(lvl).set({
+        'counter': 0,
+        'answeredWords': [],
+        'isDone': false,
+      });
+    }
+  }
+
+  print("All default difficulty + level data created!");
+}
+  *
+  * */
 
   Future<int> getLevelCounter(String difficulty, String level) async
   {

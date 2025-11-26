@@ -82,7 +82,7 @@ class _DailyWordsState extends State<DailyWords> {
             ),
             ElevatedButton(
               onPressed: () {
-                final counter = Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => DailyWordsTemplateScreen(listOfWords: easyWords1, difficulty: 'easy', level: 'level'

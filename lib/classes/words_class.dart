@@ -5,6 +5,7 @@ class Words{
 
   String? word;//words itself
   String? rusTrans;//translation
+  String? engTrans;//translation
   String? img;//image of word, not yet implemented
   bool isCorrectlyAnswered;
   Color changeColorIfRight;

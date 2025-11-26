@@ -12,7 +12,7 @@ import 'Screens/sozduk_screen.dart';
 Future <void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: "kyrgyz-dictionary-6fb97",
+    // name: "kyrgyz-dictionary-6fb97",
     options: FirebaseOptions(
         apiKey: "AIzaSyD5HvXDXe19-NkteCb-_ZXW_NXwgDZ8Gsk",
         authDomain: "kyrgyz-dictionary-6fb97.firebaseapp.com",

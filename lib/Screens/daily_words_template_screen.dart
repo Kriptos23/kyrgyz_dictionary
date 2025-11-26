@@ -149,10 +149,11 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
                                   // if(isNewCard == true && rightAnswersCounter<10){
                                   //   rightAnswersCounter++;
                                   // }
+                                  //if the word was not answered before
                                   if(!listOfWordsPointer![cardIndex].isCorrectlyAnswered){
-                                    listOfWordsPointer![cardIndex].isCorrectlyAnswered = true;
-                                    rightAnswersCounter++;
-                                    onCorrectAnswer();
+                                    listOfWordsPointer![cardIndex].isCorrectlyAnswered = true;//mark a word as answered
+                                    rightAnswersCounter++;//increase counter
+                                    onCorrectAnswer();//updates counter in the FireStore Cloud
                                     if(rightAnswersCounter==10){
                                       ifSetIsDonePointer = true;
                                     }
@@ -182,6 +183,7 @@ class _DailyWordsTemplateScreenState extends State<DailyWordsTemplateScreen> {
                                 setState(() {
                                   listOfWordsPointer![cardIndex].isCorrectlyAnswered = false;
                                   rightAnswersCounter--;
+                                  onCorrectAnswer();//updates counter in the FireStore Cloud
                                   listOfWordsPointer![cardIndex].changeColorIfRight = Colors.red;
                                 });
                               },

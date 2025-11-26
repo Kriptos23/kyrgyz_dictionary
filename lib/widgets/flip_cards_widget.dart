@@ -26,6 +26,7 @@ List<FlipCard> buildFlipCards(List<Words> listOfWords) {
             style: const TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),
+        // autoFlipDuration: Duration(seconds: 0, milliseconds: 500),
       ),
     );
   }
