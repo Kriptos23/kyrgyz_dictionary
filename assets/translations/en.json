@@ -1,0 +1,29 @@
+{
+  "greeting" : "Hello!",
+  "gpt_text_field" : "Enter a Kyrgyz word to get explanation",
+  "select_language" : "Select your language",
+  "words":
+  {
+    "level1" :
+    {
+      "salam":"hello",
+      "men":"I",
+      "rahmat":"thank you",
+      "suu":"water",
+      "ak_ilbirs":"snow leopard"
+    },
+    "funbox":
+    {
+      "dog":"dog",
+      "apple": "apple",
+      "cat": "cat",
+      "bird": "bird",
+      "fish": "fish",
+      "house": "house",
+      "book": "book",
+      "table": "table",
+      "milk": "milk",
+      "bread": "bread"
+    }
+  }
+}

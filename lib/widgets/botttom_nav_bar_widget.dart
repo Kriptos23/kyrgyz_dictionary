@@ -6,7 +6,7 @@ class BottomNavBar{
   int _currentIndex;
     // why isn't it getting updated
   BottomNavBar(this.initialIndex) : _currentIndex = initialIndex;
-  final List<String> _routes = ['/sozduk', '/sozdor', '/menin_profilim'];
+  final List<String> _routes = ['/sozduk', '/sozdor', '/menin_profilim', '/fun_box'];
   void _onTabTapped(int index, BuildContext context, void Function(VoidCallback) updater) {
     if (index != _currentIndex) {
       updater((){
@@ -26,6 +26,7 @@ class BottomNavBar{
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "ИИ Переводчик"),
         BottomNavigationBarItem(icon: Icon(CupertinoIcons.chevron_up_square), label: "игра сөздөр"),
+        BottomNavigationBarItem(icon: Icon(Icons.games), label: "Fun Box"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "В разработке"),
       ],);
   }

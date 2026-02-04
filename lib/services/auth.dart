@@ -31,14 +31,20 @@ class AuthService {
 
 
   // sign in anon
-  Future signInAnon() async //this is so that we can sign in anonymously
-  {
+  Future signInAnon() async {
     try {
-      UserCredential result = await _auth.signInAnonymously();//method which signs user in anonymously
-      User? user = result.user;//saves user from UserCredential into User obj, this user is not related to getter above
-      return _userFromFirebase(user!);//returns our own user obj
+      UserCredential result = await _auth.signInAnonymously();
+      User? user = result.user;
+
+      if (user == null) return null;
+
+      // Await the creation of default data
+      DatabaseService databaseService = DatabaseService(uid: user.uid);
+      await databaseService.createUserDataOnFirstLogin();
+
+      return _userFromFirebase(user); // now it's safe
     } catch (e) {
-      print(e.toString());//catch if error
+      print(e.toString());
       return null;
     }
   }
@@ -81,6 +87,12 @@ class AuthService {
 
       // ✅ Trigger a popup sign-in flow
       final userCredential = await _auth.signInWithPopup(googleProvider);
+
+      // ✅ Sign in to Firebase
+      final user = userCredential.user;
+
+      DatabaseService databaseService = DatabaseService(uid: user!.uid);
+      databaseService.createUserDataOnFirstLogin();
 
       print('Signed in as: ${userCredential.user?.email}');
       return userCredential;

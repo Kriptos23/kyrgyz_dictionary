@@ -1,54 +1,84 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kyrgyz_dictionary/classes/words_class.dart';
+import 'package:kyrgyz_dictionary/generated/locale_keys.g.dart';
 
-List<Words> easyWords1 = [
+List<Words> easyWords1=[
+  Words(
+    word: "салам",
+    rusTrans: LocaleKeys.words_level1_salam,
+    img: "images/words/hello.png",
+  ),
+  Words(
+    word: "мен",
+    rusTrans: LocaleKeys.words_level1_men,
+    img: "images/words/me.png",
+  ),
+  Words(
+    word: "рахмат",
+    rusTrans: LocaleKeys.words_level1_rahmat,
+    img: "images/words/thank_you.png",
+  ),
+  Words(
+    word: "суу",
+    rusTrans: LocaleKeys.words_level1_suu,
+    img: "images/words/water.png",
+  ),
+  Words(
+    word: "Ак Илбирс",
+    rusTrans: LocaleKeys.words_level1_ak_ilbirs,
+    img: "images/words/snow_leopard.png",
+  ),
+];
+
+List<Words> sample1 = [
   Words(
     word: "алма",
-    rusTrans: "яблоко",
+    rusTrans: LocaleKeys.words_funbox_apple,
     img: "https://example.com/apple.png",
   ),
   Words(
     word: "ит",
-    rusTrans: "собака",
+    rusTrans: LocaleKeys.words_funbox_dog,
     img: "https://example.com/dog.png",
   ),
   Words(
     word: "мышык",
-    rusTrans: "кошка",
+    rusTrans: LocaleKeys.words_funbox_cat,
     img: " ", // cat
   ),
   Words(
     word: "куш",
-    rusTrans: "птица",
+    rusTrans: LocaleKeys.words_funbox_bird,
     img: " ", // bird
   ),
   Words(
     word: "балык",
-    rusTrans: "рыба",
+    rusTrans: LocaleKeys.words_funbox_fish,
     img: " ", // fish
   ),
   Words(
     word: "үй",
-    rusTrans: "дом",
+    rusTrans: LocaleKeys.words_funbox_house,
     img: " ", // house
   ),
   Words(
     word: "китеп",
-    rusTrans: "книга",
+    rusTrans: LocaleKeys.words_funbox_book,
     img: " ", // book
   ),
   Words(
     word: "стол",
-    rusTrans: "стол",
+    rusTrans: LocaleKeys.words_funbox_table,
     img: " ", // table
   ),
   Words(
     word: "сүт",
-    rusTrans: "молоко",
+    rusTrans: LocaleKeys.words_funbox_milk,
     img: " ", // milk
   ),
   Words(
     word: "нан",
-    rusTrans: "хлеб",
+    rusTrans: LocaleKeys.words_funbox_bread,
     img: " ", // bread
   ),
 ];

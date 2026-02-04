@@ -12,7 +12,20 @@
           "package_name": "com.danielkuvan.kyrgyz_dictionary"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "308251536087-0e20rk3bjnnurds4jv9b132vp2tocs5v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danielkuvan.kyrgyz_dictionary",
+            "certificate_hash": "a940d24114461505baf6fee5f68a3a9b6713286e"
+          }
+        },
+        {
+          "client_id": "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAIqfRVIRjB6ZbLvPsdOF8Ve2tYz774B1E"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

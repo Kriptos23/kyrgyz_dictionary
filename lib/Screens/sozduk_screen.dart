@@ -1,4 +1,8 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:kyrgyz_dictionary/generated/locale_keys.g.dart';
 import '../services/api_service.dart';
 import '../widgets/botttom_nav_bar_widget.dart';
 
@@ -79,9 +83,17 @@ class _SozdukScreenState extends State<SozdukScreen>
               onChanged: (String? value){
                 setState(() {
                   selectedLanguage = value!;
+                  if(value=="Kyrgyz") context.setLocale(Locale('ky'));
+                  else if(value=="Russian") context.setLocale(Locale('ru'));
+                  else context.setLocale(Locale('en'));
+
+
+                  // SystemNavigator.pop();
+                  // final engine = WidgetsFlutterBinding.ensureInitialized();
+                  // engine.performReassemble();
                 });
               },
-              underline: Container(color: Colors.deepPurple, height: 3,),
+              underline: Container(color: Colors.blue, height: 3,),
             )
           ]
       ),
@@ -92,11 +104,15 @@ class _SozdukScreenState extends State<SozdukScreen>
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Text(
+              LocaleKeys.greeting.tr(),
+              style: const TextStyle(fontSize: 16),
+            ),
             TextField(
               controller: _controller,
-              decoration: const InputDecoration(
-                labelText: "Enter a Kyrgyz word",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.gpt_text_field.tr(),
+                border: const OutlineInputBorder(),
 
               ),
             ),

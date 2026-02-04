@@ -1,10 +1,156 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:kyrgyz_dictionary/classes/words_class.dart';
 import 'package:flutter/material.dart';
 
 
+Color niceColor = Color(0xFF272727);
 
-List<FlipCard> buildFlipCards(List<Words> listOfWords) {
+List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, FlipCardController flipCardController) {
+  List<FlipCard> cards = [];
+  for (var i = 0; i < listOfWords.length; i++) {
+    cards.add(
+      FlipCard(
+        controller: flipCardController,
+        key: ValueKey('card$i'),
+        front: Container(
+          // width: 650,
+          // height: 250,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: listOfWords[i].containerFrontColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+            border: Border.all(color: listOfWords[i].changeColorIfRight, width: 3),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image.network(listOfUrl[i], width: 230, height: 230,),
+              Text(
+                '${listOfWords[i].word}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  letterSpacing: 0.5,
+                  shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+                ),
+              ),              // ElevatedButton(onPressed: (){flipCardController.toggleCard();}, child: Text('toggle')),
+            ],
+          ),
+        ),
+        back: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.blue.shade300,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: listOfWords[i].changeColorIfRight, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Text(
+            '${listOfWords[i].rusTrans!.tr()}',
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+              letterSpacing: 0.5,
+              shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+            ),
+          ),
+        ),
+        // autoFlipDuration: Duration(seconds: 0, milliseconds: 500),
+      ),
+    );
+  }
+
+  return cards;
+}
+
+List<FlipCard> buildFlipCards1(List<Words> listOfWords, FlipCardController flipCardController) {
+  List<FlipCard> cards = [];
+  // listOfWords.shuffle();
+  for (var i = 0; i < listOfWords.length; i++) {
+    cards.add(
+      FlipCard(
+        key: ValueKey('card$i'),
+        controller: flipCardController,
+        front: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: listOfWords[i].containerFrontColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+            border: Border.all(color: listOfWords[i].changeColorIfRight, width: 3),
+          ),
+          child:
+              Text(
+                '${listOfWords[i].word}',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  letterSpacing: 0.5,
+                  shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+                ),
+              ),
+          ),
+        back: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            // color: Color(0xFFDAD8D8),
+            // color: niceColor,
+            color: Colors.blue.shade300,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: listOfWords[i].changeColorIfRight, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Text(
+            '${listOfWords[i].rusTrans!.tr()}',
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              letterSpacing: 0.5,
+              shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+            ),
+          ),
+        ),
+        // autoFlipDuration: Duration(seconds: 0, milliseconds: 500),
+      ),
+    );
+  }
+
+  return cards;
+}
+
+List<FlipCard> buildFlipCards2(List<Words> listOfWords) {
   List<FlipCard> cards = [];
   for (var i = 0; i < listOfWords.length; i++) {
     cards.add(

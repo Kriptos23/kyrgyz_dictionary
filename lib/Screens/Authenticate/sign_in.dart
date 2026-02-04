@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kyrgyz_dictionary/services/auth.dart';
-
 import '../../widgets/botttom_nav_bar_widget.dart';
 
 class SignIn extends StatefulWidget {
@@ -11,25 +10,54 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  AuthService _auth = AuthService();//auth obj from our self-made class to use sign-in functions
-
-
+  AuthService _auth = AuthService(); //auth obj from our self-made class to use sign-in functions
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Sign In"),),
+
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              height: 120,
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: ElevatedButton(child: Text('Sign in Anonymously'),
-                  onPressed: ()async{
-                    dynamic result = await _auth.signInAnon();//method from auth.dart, should return null or OurUser obj
-                    if(result == null){
+              child: GestureDetector(
+                  child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        // color: Color(0xFFDAD8D8),
+                        // color: niceColor,
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(color: Colors.blue, width: 3),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/img/google.png',
+                            width: 30,
+                            height: 30,
+                          ),
+                          SizedBox(width: 10,),
+                          Text('Sign in with Google', style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight
+                              .w400, shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ]),),
+                        ],
+                      )),
+                  onTap: () async {
+                    dynamic result = await _auth.signInWithGoogle(); //method from auth.dart, should return null or OurUser obj
+                    if (result == null) {
                       print('error signing in');
-                    }else{
+                    } else {
                       print('signed in');
                       print(result.uid);
                     }
@@ -37,17 +65,19 @@ class _SignInState extends State<SignIn> {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: ElevatedButton(child: Text('Sign in with Google'),
-                  onPressed: ()async{
-                    dynamic result = await _auth.signInWithGoogle();//method from auth.dart, should return null or OurUser obj
-                    if(result == null){
+              child: GestureDetector(
+                  child: Text('Sign in Anonymously', style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.w500,
+                  shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ])),
+                  onTap: () async {
+                    dynamic result = await _auth.signInAnon(); //method from auth.dart, should return null or OurUser obj
+                    if (result == null) {
                       print('error signing in');
-                    }else{
+                    } else {
                       print('signed in');
                       print(result.uid);
                     }
                   }),
-            )
+            ),
           ],
         ),
       ),

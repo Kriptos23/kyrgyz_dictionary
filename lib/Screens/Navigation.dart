@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kyrgyz_dictionary/Screens/Authenticate/my_profile.dart';
+import 'package:kyrgyz_dictionary/Screens/Fun%20Box/fun_box.dart';
 import 'package:kyrgyz_dictionary/Screens/daily_words_screen.dart';
 import 'package:kyrgyz_dictionary/Screens/sozduk_screen.dart';
 
@@ -16,6 +17,7 @@ class _NavigationState extends State<Navigation> {
   final List<Widget> _screens = const [
     SozdukScreen(),
     DailyWords(),
+    FunBox(),
     MyProfile(),
   ];
 
@@ -32,11 +34,15 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.amber,
         currentIndex: _currentIndex,
+        unselectedItemColor: Colors.blueGrey,
+        selectedItemColor: Colors.blue,
         onTap: _onTabTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "ИИ Переводчик"),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: "Сөздөр"),
+          BottomNavigationBarItem(icon: Icon(Icons.book_online), label: "Окуу"),
+          BottomNavigationBarItem(icon: Icon(Icons.videogame_asset), label: "FunBox"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Профиль"),
         ],
       ),
