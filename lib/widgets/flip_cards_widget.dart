@@ -33,7 +33,7 @@ List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, F
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.network(listOfUrl[i], width: 230, height: 230,),
+              Flexible(child: Image.network(listOfUrl[i], width: 300, height: 300,)),
               Text(
                 '${listOfWords[i].word}',
                 textAlign: TextAlign.center,

@@ -82,99 +82,92 @@ class _FunBoxState extends State<FunBox> {
             },
           ),
         ),
-        TextField(
-          controller: _textController,
-          decoration: const InputDecoration(
-            labelText: "давай поиграем!",
-            border: OutlineInputBorder(),
+        Padding(
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 30),
+          child: TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              labelText: "Напиши перевод!",
+              border: OutlineInputBorder(),
+              suffixIcon: IconButton(onPressed:(){
+                if (_textController.text.trim() == sample1![cardIndex].rusTrans!.tr()) {
+
+                  setState(() {
+                    sample1[cardIndex].changeColorIfRight =
+                        Colors.green;
+                    sample1[cardIndex].containerFrontColor =
+                        Colors.green.shade50;
+
+                    if (!sample1[cardIndex].isCorrectlyAnswered) {
+                      sample1[cardIndex].isCorrectlyAnswered = true;
+                      // rightAnswersCounter++;
+                      // onCorrectAnswer();
+
+                      // if (rightAnswersCounter == 10) {
+                      //   ifSetIsDonePointer = true;
+                      // }
+                    }
+                  });
+
+
+
+
+
+
+
+
+                  // buildFlipCards()[0].toggleCard();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(
+                      children: const [
+                        Icon(Icons.check_circle, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text('Correct!'),
+                      ],
+                    ),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                    // makes it float above content
+                    margin: const EdgeInsets.all(16),
+                    // spacing from edges
+                    duration: const Duration(seconds: 1),
+                    // auto disappears
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ));
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
+                        content: const Text("Try again!"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // closes the popup
+                              setState(() {
+                                sample1[cardIndex].isCorrectlyAnswered = false;
+                                // rightAnswersCounter--;
+                                // onCorrectAnswer();//updates counter in the FireStore Cloud
+                                sample1[cardIndex].changeColorIfRight = Colors.red;
+                                sample1[cardIndex].containerFrontColor = Colors.red.shade50;
+                              });
+                            },
+                            child: const Text("Close"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              }, icon: Icon(Icons.search))
+            ),
+
           ),
         ),
-        const SizedBox(height: 12),
-        ElevatedButton(
-            onPressed: () async {
-              for (int i = 0; i < 10; i++) {
-                cardSwiperController.swipe(CardSwiperDirection.left);
-                await Future.delayed(const Duration(milliseconds: 250));
-              }
-            },
-            child: Text('swipe')),
-        ElevatedButton(
-          onPressed: () {
-            if (_textController.text.trim() == sample1![cardIndex].rusTrans!.tr()) {
 
-              setState(() {
-                sample1[cardIndex].changeColorIfRight =
-                    Colors.green;
-                sample1[cardIndex].containerFrontColor =
-                    Colors.green.shade50;
-
-                if (!sample1[cardIndex].isCorrectlyAnswered) {
-                  sample1[cardIndex].isCorrectlyAnswered = true;
-                  // rightAnswersCounter++;
-                  // onCorrectAnswer();
-
-                  // if (rightAnswersCounter == 10) {
-                  //   ifSetIsDonePointer = true;
-                  // }
-                }
-              });
-
-
-
-
-
-
-
-
-              // buildFlipCards()[0].toggleCard();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Row(
-                  children: const [
-                    Icon(Icons.check_circle, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Correct!'),
-                  ],
-                ),
-                backgroundColor: Colors.green,
-                behavior: SnackBarBehavior.floating,
-                // makes it float above content
-                margin: const EdgeInsets.all(16),
-                // spacing from edges
-                duration: const Duration(seconds: 1),
-                // auto disappears
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ));
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
-                    content: const Text("Try again!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(); // closes the popup
-                          setState(() {
-                            sample1[cardIndex].isCorrectlyAnswered = false;
-                            // rightAnswersCounter--;
-                            // onCorrectAnswer();//updates counter in the FireStore Cloud
-                            sample1[cardIndex].changeColorIfRight = Colors.red;
-                            sample1[cardIndex].containerFrontColor = Colors.red.shade50;
-                          });
-                        },
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
-          },
-          child: const Text("Get Explanation"),
-        ),
       ]),
     );
   }

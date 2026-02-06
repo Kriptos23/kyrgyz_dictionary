@@ -20,25 +20,28 @@ class ChooseLevels extends StatefulWidget {
 class _ChooseLevelsState extends State<ChooseLevels> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      
-      padding: EdgeInsets.all(50),
-      child: ListView(children:
-      [
-        Text('Difficulty: ${widget.difficulty}', style: TextStyle(fontSize: 24),),
-        CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.start, game: 1),
-        CircleButton(difficulty: widget.difficulty, level: 'level2', listOfWords: loadWords(1), alignment: MainAxisAlignment
-            .center, game: 2),
-        ElevatedButton(onPressed: (){
-          context.read<ProgressBloc>().add(ResetDifficultyEvent());
-        }, child: Icon(Icons.arrow_back, size: 32,),),
-        // CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.end, game: 1),
-        // CircleButton(difficulty: widget.difficulty, level: 'level1', listOfWords: loadWords(1), alignment: MainAxisAlignment
-        //     .center, game: 2),
-        // CircleButton(difficulty: 'easy', level: 'level2', listOfWords: loadWords(2), alignment: MainAxisAlignment.start, game: 1),
+    return Scaffold(
+      appBar: AppBar(leading: IconButton(onPressed: (){
+        context.read<ProgressBloc>().add(ResetDifficultyEvent());
+      }, icon: Icon(Icons.arrow_back, size: 32,),),),
+      body: Padding(
 
-        Text('${widget.dataLevels}')
-      ],),
+        padding: EdgeInsets.fromLTRB(35, 5, 35, 5),
+        child: ListView(children:
+        [
+          Text('Difficulty: ${widget.difficulty}', style: TextStyle(fontSize: 24),),
+          CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.start, game: 1),
+          CircleButton(difficulty: widget.difficulty, level: 'level2', listOfWords: loadWords(1), alignment: MainAxisAlignment
+              .center, game: 2),
+
+          // CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.end, game: 1),
+          // CircleButton(difficulty: widget.difficulty, level: 'level1', listOfWords: loadWords(1), alignment: MainAxisAlignment
+          //     .center, game: 2),
+          // CircleButton(difficulty: 'easy', level: 'level2', listOfWords: loadWords(2), alignment: MainAxisAlignment.start, game: 1),
+
+          Text('${widget.dataLevels}')
+        ],),
+      ),
     );
   }
 

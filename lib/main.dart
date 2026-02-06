@@ -80,6 +80,12 @@ flutter pub run easy_localization:generate -S assets/translations
 flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -S assets/translations
  */
 
+/// To build web and deploy a firebase website, it will return a web link
+/*
+flutter build web
+firebase deploy
+ */
+
 /*
 await Firebase.initializeApp(
     // name: "kyrgyz-dictionary-6fb97",

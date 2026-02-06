@@ -25,11 +25,33 @@ class _MyProfileState extends State<MyProfile> {
         body: Center(
           child: Column(
             children: [
-              Container(
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-                child: ElevatedButton(
-                    child: const Text('Log Out'),
-                    onPressed: () async {
+                child: GestureDetector(
+                    child: Container(
+                      width: 100,
+                        height: 40,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          // color: Color(0xFFDAD8D8),
+                          // color: niceColor,
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(35),
+                          border: Border.all(color: Colors.red, width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child:
+
+                            Text('log out', style: TextStyle(color: Colors.black, fontWeight: FontWeight
+                                .w400, shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ]),),
+                          ),
+                    onTap: () async {
                       final SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.remove('isLanguageSelected');
                       dynamic result = await _auth.signOut(); //method from auth.dart, should return null or OurUser obj
@@ -37,7 +59,8 @@ class _MyProfileState extends State<MyProfile> {
                       //   Navigator.pushNamed(context, '/sign_in');
                       // }
                     }),
-              )
+              ),
+
             ],
           ),
         ),

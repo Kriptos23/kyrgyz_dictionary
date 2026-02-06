@@ -20,13 +20,14 @@ class _SozdukScreenState extends State<SozdukScreen>
   ///VARIABLES
   String _result = "";
 
-  List<String> languageOptions = <String>["Kyrgyz", "Russian", "English"];
+  List<String> languageOptions = <String>["Кыргызча", "Русский", "English"];
 
   String? selectedLanguage;
 
   final TextEditingController _controller = TextEditingController();
 
   BottomNavBar bottomNavBarWidget = BottomNavBar(0);
+
 
   // int _currentIndex = 0;
   // final List<String> _routes = ['/', '/sozdor'];
@@ -37,10 +38,22 @@ class _SozdukScreenState extends State<SozdukScreen>
   //   }
   // }
 
+  int whatLanguage(String langCode){
+    if(langCode == 'ky'){
+      return 0;
+    }
+    else if(langCode == 'ru'){
+      return 1;
+    }else{
+      return 2;
+    }
+  }
+
+
   ///METHODS
   @override
   void initState() {
-    selectedLanguage = languageOptions.first;
+
   }
 
   void _startStreaming(String word, String language) {
@@ -66,6 +79,8 @@ class _SozdukScreenState extends State<SozdukScreen>
   }
   @override
   Widget build(BuildContext context) {
+    String langCode = context.locale.languageCode;
+    // selectedLanguage = languageOptions[whatLanguage(langCode)];
     return
       Scaffold(
       appBar: AppBar
@@ -75,6 +90,7 @@ class _SozdukScreenState extends State<SozdukScreen>
           [
             DropdownButton
               (
+              
               value: selectedLanguage,
               items: languageOptions.map<DropdownMenuItem<String>>((String value)
               {
