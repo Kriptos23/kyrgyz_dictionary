@@ -37,7 +37,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
                   child: DropdownButton
                     (
                     value: selectedLanguage,
-                    hint: Text('Language MAKE IT TR()'),
+                    hint: Text(LocaleKeys.language.tr()),
                     items: languageOptions.map<DropdownMenuItem<String>>((String value)
                     {
                       return DropdownMenuItem<String>(value: value, child: Row(

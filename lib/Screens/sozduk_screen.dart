@@ -80,7 +80,7 @@ class _SozdukScreenState extends State<SozdukScreen>
   @override
   Widget build(BuildContext context) {
     String langCode = context.locale.languageCode;
-    // selectedLanguage = languageOptions[whatLanguage(langCode)];
+    selectedLanguage = languageOptions[whatLanguage(langCode)];
     return
       Scaffold(
       appBar: AppBar
@@ -90,7 +90,7 @@ class _SozdukScreenState extends State<SozdukScreen>
           [
             DropdownButton
               (
-              
+
               value: selectedLanguage,
               items: languageOptions.map<DropdownMenuItem<String>>((String value)
               {
@@ -99,11 +99,9 @@ class _SozdukScreenState extends State<SozdukScreen>
               onChanged: (String? value){
                 setState(() {
                   selectedLanguage = value!;
-                  if(value=="Kyrgyz") context.setLocale(Locale('ky'));
-                  else if(value=="Russian") context.setLocale(Locale('ru'));
+                  if(value=="Кыргызча") context.setLocale(Locale('ky'));
+                  else if(value=="Русский") context.setLocale(Locale('ru'));
                   else context.setLocale(Locale('en'));
-
-
                   // SystemNavigator.pop();
                   // final engine = WidgetsFlutterBinding.ensureInitialized();
                   // engine.performReassemble();
@@ -129,15 +127,22 @@ class _SozdukScreenState extends State<SozdukScreen>
               decoration: InputDecoration(
                 labelText: LocaleKeys.gpt_text_field.tr(),
                 border: const OutlineInputBorder(),
-
+                labelStyle: TextStyle(color: Colors.black),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 2),
+                ),
               ),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white ,side: BorderSide(color: Colors.black)),
               onPressed: () {
                 _startStreaming(_controller.text.trim(), selectedLanguage!);
               },
-              child: const Text("Get Explanation"),
+              child: Text(LocaleKeys.get_explanation.tr(), style: TextStyle(color: Colors.black),),
             ),
             const SizedBox(height: 20),
             Expanded(

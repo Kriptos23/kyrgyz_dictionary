@@ -29,15 +29,16 @@ class CircleButton extends StatelessWidget {
           child: Container(
             width: 64,
             height: 64,
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.blue,
+              color: Colors.white,
+              border: Border.all(color: Colors.blue, width: 3),
             ),
             child: Center(
               child: Text(
-                level,
+                level.replaceAll(RegExp(r'[^0-9]'), ''),
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.blue,
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),

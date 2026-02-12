@@ -4,7 +4,11 @@ import 'package:kyrgyz_dictionary/classes/our_user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyrgyz_dictionary/services/firestore_cloud_database.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class AuthService {
+  final Uri loginPage = Uri.parse("https://kyrgyz-dictionary-6fb97.web.app"); // your Firebase-hosted web app
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
@@ -86,21 +90,30 @@ class AuthService {
       // googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
       // ✅ Trigger a popup sign-in flow
-      final userCredential = await _auth.signInWithPopup(googleProvider);
+      // final userCredential = await _auth.signInWithPopup(googleProvider);
+      await _auth.setPersistence(Persistence.LOCAL); // must be called BEFORE redirect
+      await launchUrl(
+        loginPage,
+        mode: LaunchMode.externalApplication, // 🔹 opens real browser
+      );
+      await FirebaseAuth.instance.signInWithRedirect(googleProvider);
 
+      // return null;
       // ✅ Sign in to Firebase
-      final user = userCredential.user;
+      // final user = userCredential.user;
+      //
+      // DatabaseService databaseService = DatabaseService(uid: user!.uid);
+      // databaseService.createUserDataOnFirstLogin();
+      //
+      // print('Signed in as: ${userCredential.user?.email}');
+      // return userCredential;
 
-      DatabaseService databaseService = DatabaseService(uid: user!.uid);
-      databaseService.createUserDataOnFirstLogin();
-
-      print('Signed in as: ${userCredential.user?.email}');
-      return userCredential;
     }catch(e){
       print(e.toString());
       return null;
     }
   }
+
 
   Future<OurUser?> signInWithGoogleMobile() async{
     try {
@@ -144,8 +157,8 @@ class AuthService {
   Future signOut() async
   {
     try{
-     _auth.signOut();
-     print("User signed out");
+      _auth.signOut();
+      print("User signed out");
     }
     catch(e)
     {
@@ -153,4 +166,43 @@ class AuthService {
       return null;
     }
   }
+
+  Future<void> handleRedirect() async {
+    final result = await FirebaseAuth.instance.getRedirectResult();
+
+    // if (result.user != null) {
+    //   print("User logged in: ${result.user!.email}");
+    //
+    //   final user = result.user;
+    //
+    //   DatabaseService databaseService = DatabaseService(uid: user!.uid);
+    //   databaseService.createUserDataOnFirstLogin();
+    //
+    //   print('Signed in as: ${result.user?.email}');
+    //   // return result;
+    // }
+    try{
+    if (result.user != null) {
+      print("Redirect success: ${result.user!.email}");
+
+      await DatabaseService(uid: result.user!.uid)
+          .createUserDataOnFirstLogin();
+    }
+    else{
+      print('no error, not user as well');
+    }
+  } catch (e) {
+  print("Redirect error: $e");
+  }
+  }
+
+  Future<void> setPersistence() async {
+    // ✅ Keep user signed in across tabs and browser reloads
+    await _auth.setPersistence(Persistence.LOCAL);
+  }
+
+
+
+
+
 }

@@ -2,6 +2,14 @@
   "greeting" : "Hello!",
   "gpt_text_field" : "Enter a Kyrgyz word to get explanation",
   "select_language" : "Select your language",
+  "language" : "Language",
+  "get_explanation" : "Explain",
+  "check" : "Check",
+  "lets_play": "Let's play! Type translation:",
+  "type_translation" : "Type translation:",
+  "sign_in_google" : "Sign in with Google",
+  "sign_in_anon" : "Sign in Anonymously",
+  "sign_out" : "Sign out",
   "words":
   {
     "level1" :

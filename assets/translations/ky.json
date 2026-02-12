@@ -2,6 +2,14 @@
   "greeting" : "Салам!",
   "gpt_text_field" : "Тушундуруп берулчу кыргыз созду жазгыла",
   "select_language" : "Тилди тандагыла",
+  "language" : "Тил",
+  "get_explanation" : "Создун Мааниси",
+  "check" : "Проверить",
+  "lets_play": "Ойнойлу! Котормосун киргизиңиз:",
+  "type_translation": "Котормосун киргизиңиз:",
+  "sign_in_google": "Google аркылуу кирүү",
+  "sign_in_anon": "Аноним түрдө кирүү",
+  "sign_out": "Чыгуу",
   "words":
   {
     "level1" :

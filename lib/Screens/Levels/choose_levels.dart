@@ -34,12 +34,13 @@ class _ChooseLevelsState extends State<ChooseLevels> {
           CircleButton(difficulty: widget.difficulty, level: 'level2', listOfWords: loadWords(1), alignment: MainAxisAlignment
               .center, game: 2),
 
+
           // CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.end, game: 1),
           // CircleButton(difficulty: widget.difficulty, level: 'level1', listOfWords: loadWords(1), alignment: MainAxisAlignment
           //     .center, game: 2),
           // CircleButton(difficulty: 'easy', level: 'level2', listOfWords: loadWords(2), alignment: MainAxisAlignment.start, game: 1),
 
-          Text('${widget.dataLevels}')
+          // Text('${widget.dataLevels}')
         ],),
       ),
     );
@@ -52,7 +53,7 @@ class _ChooseLevelsState extends State<ChooseLevels> {
         case 1:
           return easyWords1;
         case 2:
-          return easyWords2;
+          // return easyWords2;
         default:
           return [];
       }

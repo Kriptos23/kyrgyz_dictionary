@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kyrgyz_dictionary/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../generated/locale_keys.g.dart';
 import '../../widgets/botttom_nav_bar_widget.dart';
 
 class MyProfile extends StatefulWidget {
@@ -48,7 +50,7 @@ class _MyProfileState extends State<MyProfile> {
                         ),
                         child:
 
-                            Text('log out', style: TextStyle(color: Colors.black, fontWeight: FontWeight
+                            Text(LocaleKeys.sign_out.tr(), style: TextStyle(color: Colors.black, fontWeight: FontWeight
                                 .w400, shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ]),),
                           ),
                     onTap: () async {

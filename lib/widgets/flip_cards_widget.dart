@@ -4,7 +4,6 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:kyrgyz_dictionary/classes/words_class.dart';
 import 'package:flutter/material.dart';
 
-
 Color niceColor = Color(0xFF272727);
 
 List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, FlipCardController flipCardController) {
@@ -32,19 +31,50 @@ List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, F
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(child: Image.network(listOfUrl[i], width: 300, height: 300,)),
-              Text(
-                '${listOfWords[i].word}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                  letterSpacing: 0.5,
-                  shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
-                ),
-              ),              // ElevatedButton(onPressed: (){flipCardController.toggleCard();}, child: Text('toggle')),
+              Flexible(
+                  child: Image.network(
+                listOfUrl[i],
+                width: 300,
+                height: 300,
+              )),
+              Column(
+                children: [
+                  Text(
+                    '${listOfWords[i].word}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                      letterSpacing: 0.5,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    listOfWords[i].transcription ?? "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      // lighter weight
+                      fontStyle: FontStyle.italic,
+                      // gives phonetic feel
+                      color: Colors.grey.shade600,
+                      // softer color
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                ],
+              ), // ElevatedButton(onPressed: (){flipCardController.toggleCard();}, child: Text('toggle')),
             ],
           ),
         ),
@@ -69,7 +99,13 @@ List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, F
               fontWeight: FontWeight.w400,
               color: Colors.white,
               letterSpacing: 0.5,
-              shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+              shadows: [
+                Shadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
           ),
         ),
@@ -103,7 +139,9 @@ List<FlipCard> buildFlipCards1(List<Words> listOfWords, FlipCardController flipC
             ],
             border: Border.all(color: listOfWords[i].changeColorIfRight, width: 3),
           ),
-          child:
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
                 '${listOfWords[i].word}',
                 style: TextStyle(
@@ -111,10 +149,33 @@ List<FlipCard> buildFlipCards1(List<Words> listOfWords, FlipCardController flipC
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                   letterSpacing: 0.5,
-                  shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(height: 4),
+              Text(
+                listOfWords[i].transcription ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                  // lighter weight
+                  fontStyle: FontStyle.italic,
+                  // gives phonetic feel
+                  color: Colors.grey.shade600,
+                  // softer color
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ],
           ),
+        ),
         back: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -138,7 +199,13 @@ List<FlipCard> buildFlipCards1(List<Words> listOfWords, FlipCardController flipC
               fontWeight: FontWeight.w500,
               color: Colors.white,
               letterSpacing: 0.5,
-              shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ],
+              shadows: [
+                Shadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
           ),
         ),
@@ -179,4 +246,3 @@ List<FlipCard> buildFlipCards2(List<Words> listOfWords) {
 
   return cards;
 }
-

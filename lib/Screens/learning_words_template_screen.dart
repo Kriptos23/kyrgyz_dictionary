@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:kyrgyz_dictionary/services/firestore_cloud_database.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../classes/firebase_image.dart';
 import '../classes/words_class.dart';
 import '../generated/locale_keys.g.dart';
@@ -19,11 +21,11 @@ class LearningWordsTemplateScreen extends StatefulWidget {
   final String difficulty;
   final String level;
 
-  const LearningWordsTemplateScreen ({
+  const LearningWordsTemplateScreen({
     super.key,
     required this.uid,
     required this.listOfWords,
-    this.ifSetIsDone=false,
+    this.ifSetIsDone = false,
     required this.difficulty,
     required this.level,
   });
@@ -55,7 +57,6 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
     });
 
     swipeThrough(widget.listOfWords.length);
-
   }
 
   late final DatabaseService databaseService;
@@ -75,37 +76,34 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
     });
   }
 
-
   @override
   void initState() {
     super.initState();
     listOfWordsPointer = widget.listOfWords; // pointer (shared reference)
     ifSetIsDonePointer = widget.ifSetIsDone;
-    databaseService = DatabaseService(uid: widget.uid);// initialize database service using late because we can not initialize
+    databaseService = DatabaseService(uid: widget.uid); // initialize database service using late because we can not initialize
     // it in the constructor, we need uid first
-    _loadRightAnswersCounter();// load right answers counter from database, also need in here because we
+    _loadRightAnswersCounter(); // load right answers counter from database, also need in here because we
     // need dataBaseService
     // obj first
     _loadFlipCards();
-
   }
 
   final FlipCardController flipCardController = FlipCardController();
   CardSwiperController cardSwiperController = CardSwiperController();
 
-  Future<void> swipeThrough(int count)async
-  {
-    for(int i = 0; i < count; i++){
+  Future<void> swipeThrough(int count) async {
+    for (int i = 0; i < count; i++) {
       await Future.delayed(const Duration(milliseconds: 250));
       cardSwiperController.swipe(CardSwiperDirection.right);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(const Duration(milliseconds: 500));
       flipCardController.toggleCard();
       await Future.delayed(const Duration(milliseconds: 1500));
-      flipCardController.toggleCard();});
-
+      flipCardController.toggleCard();
+    });
   }
 
   // load right answers counter from database, need as a function because we need it as async
@@ -117,19 +115,17 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
     });
   }
 
-  bool ifMobile(){
+  bool ifMobile() {
     if (MediaQuery.sizeOf(context).width < 420) {
       return true; // desktop web
     }
     return false;
   }
 
-
-
   List<Words>? listOfWordsPointer;
   bool? ifSetIsDonePointer;
-  // late int rightAnswersCounterPointer;
 
+  // late int rightAnswersCounterPointer;
 
   // BottomNavBar bottomNavBarWidget = BottomNavBar(1);
 
@@ -137,12 +133,9 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
 
   int cardIndex = 0;
 
-
   bool isNewCard = true;
 
-
-
-  bool _onSwipe(int index){
+  bool _onSwipe(int index) {
     // final flipC = cards[index];
     // if(flipC.isItFront == false){
     //   return true;
@@ -152,144 +145,147 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
     // }
     return false;
   }
-  String? selectedLanguage;
-  List<String> languageOptions = <String>["Kyrgyz", "Russian", "English"];
+
+  // String? selectedLanguage;
+  // List<String> languageOptions = <String>["Kyrgyz", "Russian", "English"];
 
   @override
-  Widget build(BuildContext context) {
-    if(_isLoading){
+  Widget build(BuildContext context)
+  {
+    if (_isLoading)
+    {
       return const Center(child: CircularProgressIndicator());
     }
-    else{
+    else
+    {
       return SafeArea(
         child: PopScope(
           canPop: false,
-          onPopInvokedWithResult: (bool didPop, Object? result) async{
+          onPopInvokedWithResult: (bool didPop, Object? result) async {
             if (didPop) return; // already popped
             // Navigator.of(context).pop(rightAnswersCounterPointer);
             Navigator.pop(context, rightAnswersCounter);
           },
-          child:
-
-          Scaffold(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                '$rightAnswersCounter/5',
+                style: const TextStyle(color: Colors.lightGreen, fontSize: 15),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 32,
+                ),
+              ),
+            ),
             // bottomNavigationBar: bottomNavBarWidget.buildBottomNavBar(context, setState),
-            body: Column(
-              children: [
-                Text('$rightAnswersCounter/10', style: const TextStyle(color: Colors.lightGreen, fontSize: 15),),
-                Text(ifMobile().toString()),
-                Flexible(
-                  ///СЮДА СМОТРИ БЛЯДЬ
-                  child: CardSwiper(
-                    controller: cardSwiperController,
-                    isDisabled: _onSwipe(0),
-                    cardsCount: widget.listOfWords!.length,
-                    cardBuilder: (context, index, percentThresholdX, percentThresholdY) => buildFlipCards(widget.listOfWords,
-                      readyUrls, flipCardController)[index],
-                    onSwipe: (previousIndex, currentIndex, direction) {
-                      cardIndex = currentIndex!;
-                      isNewCard = true;
-                      return true; // 👈 must return true to allow the swipe
+            body: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Column(
+
+                children: [
+                  Flexible(
+                    ///СЮДА СМОТРИ БЛЯДЬ
+                    child: CardSwiper(
+                      controller: cardSwiperController,
+                      isDisabled: _onSwipe(0),
+                      cardsCount: widget.listOfWords!.length,
+                      cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
+                          buildFlipCards(widget.listOfWords, readyUrls, flipCardController)[index],
+                      onSwipe: (previousIndex, currentIndex, direction) {
+                        cardIndex = currentIndex!;
+                        isNewCard = true;
+                        return true; // 👈 must return true to allow the swipe
+                      },
+                    ),
+                  ),
+                  TextField(
+                    controller: _textController,
+                    cursorColor: Colors.blue,
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.lets_play.tr(),
+                      labelStyle: TextStyle(color: Colors.black),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // ElevatedButton(onPressed: (){swipeThrough(widget.listOfWords.length);}, child: Text('swipe ${widget.listOfWords
+                  //     .length} times')),
+                  // ElevatedButton(onPressed: (){flipCardController.toggleCard();}, child: Text('toggle card')),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white ,side: BorderSide(color: Colors.black)),
+                    onPressed: () {
+                      if (_textController.text.trim() == widget.listOfWords![cardIndex].rusTrans!.tr()) {
+                        widget.listOfWords![cardIndex].changeColorIfRight = Colors.green;
+                        widget.listOfWords![cardIndex].containerFrontColor = Colors.green.shade50;
+                        // buildFlipCards()[0].toggleCard();
+
+                        showTopSnackBar(
+                          animationDuration: Duration(milliseconds: 500),
+                          displayDuration: Duration(milliseconds: 1000),
+                          reverseAnimationDuration: Duration(milliseconds: 0),
+                          Overlay.of(context),
+                          CustomSnackBar.success(
+                            message:
+                            "Азамат!",
+                          ),
+                        );
+
+                        setState(() {
+                          if (!widget.listOfWords![cardIndex].isCorrectlyAnswered) {
+                            widget.listOfWords![cardIndex].isCorrectlyAnswered = true;
+                            rightAnswersCounter++;
+                            onCorrectAnswer();
+
+                            if (rightAnswersCounter == 10) {
+                              ifSetIsDonePointer = true;
+                            }
+                          }
+
+                          isNewCard = false;
+
+
+                        });
+                      } else {
+                        setState(() {
+                          widget.listOfWords![cardIndex].isCorrectlyAnswered = false;
+                          rightAnswersCounter--;
+                          onCorrectAnswer(); //updates counter in the FireStore Cloud
+                          widget.listOfWords![cardIndex].changeColorIfRight = Colors.red;
+                          widget.listOfWords![cardIndex].containerFrontColor = Colors.red.shade50;
+                        });
+
+                        showTopSnackBar(
+                          animationDuration: Duration(milliseconds: 500),
+                          displayDuration: Duration(milliseconds: 1000),
+                          reverseAnimationDuration: Duration(milliseconds: 0),
+                          Overlay.of(context),
+                          CustomSnackBar.error(
+                            message:
+                            "Жок ай!",
+                          ),
+                        );
+
+                      }
                     },
+                    child: Text(LocaleKeys.check.tr(), style: TextStyle(color: Colors.black),),
                   ),
-                ),
-                TextField(
-                  controller: _textController,
-                  decoration: const InputDecoration(
-                    labelText: "давай поиграем!",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                // ElevatedButton(onPressed: (){swipeThrough(widget.listOfWords.length);}, child: Text('swipe ${widget.listOfWords
-                //     .length} times')),
-                // ElevatedButton(onPressed: (){flipCardController.toggleCard();}, child: Text('toggle card')),
-                ElevatedButton(
-                  onPressed: () {
-                    if(_textController.text.trim() == widget.listOfWords![cardIndex].rusTrans!.tr()){
-                      widget.listOfWords![cardIndex].changeColorIfRight =
-                          Colors.green;
-                      widget.listOfWords![cardIndex].containerFrontColor =
-                          Colors.green.shade50;
-                      // buildFlipCards()[0].toggleCard();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Азамат!", style: TextStyle(color: Colors.lightGreen),),
-                            content: const Text("You are right!"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                            setState(() {
-                              if (!widget.listOfWords![cardIndex].isCorrectlyAnswered) {
-                                widget.listOfWords![cardIndex].isCorrectlyAnswered = true;
-                                rightAnswersCounter++;
-                                onCorrectAnswer();
-
-                                if (rightAnswersCounter == 10) {
-                                  ifSetIsDonePointer = true;
-                                }
-
-                              }
-
-
-
-                              isNewCard = false;
-                            });
-
-                            Navigator.of(context).pop(); // CLOSE LAST
-                          },
-                                child: const Text("Close"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                    else{
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
-                            content: const Text("Try again!"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // closes the popup
-                                  setState(() {
-                                    widget.listOfWords![cardIndex].isCorrectlyAnswered = false;
-                                    rightAnswersCounter--;
-                                    onCorrectAnswer();//updates counter in the FireStore Cloud
-                                    widget.listOfWords![cardIndex].changeColorIfRight = Colors.red;
-                                    widget.listOfWords![cardIndex].containerFrontColor = Colors.red.shade50;
-                                  });
-                                },
-                                child: const Text("Close"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  },
-                  child: const Text("Get Explanation"),
-                ),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    Navigator.pop(context, rightAnswersCounter);
-                  });
-                }, child: const Text('go back'))
-              ],
+                ],
+              ),
             ),
           ),
         ),
       );
     }
-
   }
-
-
 }
-
-

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kyrgyz_dictionary/Screens/Authenticate/wrapper.dart';
@@ -14,6 +15,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
+import 'services/auth.dart';
 
 
 import 'State Management/Bloc/progress/progress_bloc.dart';
@@ -31,6 +33,9 @@ Future <void> main()async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  // await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  await FirebaseAuth.instance.getRedirectResult();
 
   runApp(
     BlocProvider(
@@ -77,7 +82,7 @@ class MyApp extends StatelessWidget {
 ///RUN next comands whenever you need to update your json translations files
 /*
 flutter pub run easy_localization:generate -S assets/translations
-flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -S assets/translations
+flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -S assets/translationsf
  */
 
 /// To build web and deploy a firebase website, it will return a web link

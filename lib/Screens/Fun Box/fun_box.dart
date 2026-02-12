@@ -7,6 +7,10 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import '../../generated/locale_keys.g.dart';
 import '../../list_of_words.dart';
 import '../../widgets/flip_cards_widget.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/safe_area_values.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class FunBox extends StatefulWidget {
   const FunBox({super.key});
@@ -86,88 +90,67 @@ class _FunBoxState extends State<FunBox> {
           padding: EdgeInsets.fromLTRB(15, 5, 15, 30),
           child: TextField(
             controller: _textController,
+            cursorColor: Colors.blue,
             decoration: InputDecoration(
-              labelText: "Напиши перевод!",
-              border: OutlineInputBorder(),
-              suffixIcon: IconButton(onPressed:(){
-                if (_textController.text.trim() == sample1![cardIndex].rusTrans!.tr()) {
+                labelText: LocaleKeys.type_translation.tr(),
+                labelStyle: TextStyle(color: Colors.black),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 2),
+                ),
+                border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      if (_textController.text.trim() == sample1![cardIndex].rusTrans!.tr()) {
+                        setState(() {
+                          sample1[cardIndex].changeColorIfRight = Colors.green;
+                          sample1[cardIndex].containerFrontColor = Colors.green.shade50;
 
-                  setState(() {
-                    sample1[cardIndex].changeColorIfRight =
-                        Colors.green;
-                    sample1[cardIndex].containerFrontColor =
-                        Colors.green.shade50;
+                          if (!sample1[cardIndex].isCorrectlyAnswered) {
+                            sample1[cardIndex].isCorrectlyAnswered = true;
+                            // rightAnswersCounter++;
+                            // onCorrectAnswer();
 
-                    if (!sample1[cardIndex].isCorrectlyAnswered) {
-                      sample1[cardIndex].isCorrectlyAnswered = true;
-                      // rightAnswersCounter++;
-                      // onCorrectAnswer();
-
-                      // if (rightAnswersCounter == 10) {
-                      //   ifSetIsDonePointer = true;
-                      // }
-                    }
-                  });
-
-
-
-
-
-
-
-
-                  // buildFlipCards()[0].toggleCard();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Row(
-                      children: const [
-                        Icon(Icons.check_circle, color: Colors.white),
-                        SizedBox(width: 8),
-                        Text('Correct!'),
-                      ],
-                    ),
-                    backgroundColor: Colors.green,
-                    behavior: SnackBarBehavior.floating,
-                    // makes it float above content
-                    margin: const EdgeInsets.all(16),
-                    // spacing from edges
-                    duration: const Duration(seconds: 1),
-                    // auto disappears
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ));
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Жок ай", style: TextStyle(color: Colors.red)),
-                        content: const Text("Try again!"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // closes the popup
-                              setState(() {
-                                sample1[cardIndex].isCorrectlyAnswered = false;
-                                // rightAnswersCounter--;
-                                // onCorrectAnswer();//updates counter in the FireStore Cloud
-                                sample1[cardIndex].changeColorIfRight = Colors.red;
-                                sample1[cardIndex].containerFrontColor = Colors.red.shade50;
-                              });
-                            },
-                            child: const Text("Close"),
+                            // if (rightAnswersCounter == 10) {
+                            //   ifSetIsDonePointer = true;
+                            // }
+                          }
+                        });
+                        showTopSnackBar(
+                          animationDuration: Duration(milliseconds: 500),
+                          displayDuration: Duration(milliseconds: 1000),
+                          reverseAnimationDuration: Duration(milliseconds: 0),
+                          Overlay.of(context),
+                          CustomSnackBar.success(
+                            message:
+                            "Азамат!",
                           ),
-                        ],
-                      );
+                        );
+                      } else {
+                        setState(() {
+                          sample1[cardIndex].isCorrectlyAnswered = false;
+                          // rightAnswersCounter--;
+                          // onCorrectAnswer();//updates counter in the FireStore Cloud
+                          sample1[cardIndex].changeColorIfRight = Colors.red;
+                          sample1[cardIndex].containerFrontColor = Colors.red.shade50;
+                        });
+                        showTopSnackBar(
+                          animationDuration: Duration(milliseconds: 500),
+                          displayDuration: Duration(milliseconds: 1000),
+                          reverseAnimationDuration: Duration(milliseconds: 0),
+                          Overlay.of(context),
+                          CustomSnackBar.error(
+                            message:
+                            "Жок ай!",
+                          ),
+                        );
+                      }
                     },
-                  );
-                }
-              }, icon: Icon(Icons.search))
-            ),
-
+                    icon: Icon(Icons.search))),
           ),
         ),
-
       ]),
     );
   }
