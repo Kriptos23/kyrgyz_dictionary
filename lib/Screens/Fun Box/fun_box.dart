@@ -128,6 +128,9 @@ class _FunBoxState extends State<FunBox> {
                             "Азамат!",
                           ),
                         );
+
+                        //Will clear the text if answer is correct, text will stay if incorrect
+                        _textController.clear();
                       } else {
                         setState(() {
                           sample1[cardIndex].isCorrectlyAnswered = false;
@@ -146,6 +149,7 @@ class _FunBoxState extends State<FunBox> {
                             "Жок ай!",
                           ),
                         );
+                        // _textController.clear();
                       }
                     },
                     icon: Icon(Icons.search))),

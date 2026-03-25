@@ -190,7 +190,7 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
 
                 children: [
                   Flexible(
-                    ///СЮДА СМОТРИ БЛЯДЬ
+                    ///СЮДА СМОТРИ
                     child: CardSwiper(
                       controller: cardSwiperController,
                       isDisabled: _onSwipe(0),
@@ -254,7 +254,8 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
 
                           isNewCard = false;
 
-
+                          //Will clear the text if answer is correct, text will stay if incorrect
+                          _textController.clear();
                         });
                       } else {
                         setState(() {

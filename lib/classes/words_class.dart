@@ -13,10 +13,11 @@ class Words{
   Color changeColorIfRight;
   Color containerFrontColor;
   String transcription;
+  String audio;
 
 
   Words({required this.word, required this.rusTrans, required this.img, this.isCorrectlyAnswered=false, this.changeColorIfRight
-  = Colors.blue, this.containerFrontColor = Colors.white, required this.transcription
+  = Colors.blue, this.containerFrontColor = Colors.white, required this.transcription, required this.audio
   });
 
 

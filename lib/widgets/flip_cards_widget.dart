@@ -3,8 +3,11 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:kyrgyz_dictionary/classes/words_class.dart';
 import 'package:flutter/material.dart';
+import 'package:kyrgyz_dictionary/services/database_audio.dart';
+import 'package:kyrgyz_dictionary/widgets/audio_button.dart';
 
 Color niceColor = Color(0xFF272727);
+AudioService audioService = AudioService();
 
 List<FlipCard> buildFlipCards(List<Words> listOfWords, List<String> listOfUrl, FlipCardController flipCardController) {
   List<FlipCard> cards = [];
@@ -142,21 +145,30 @@ List<FlipCard> buildFlipCards1(List<Words> listOfWords, FlipCardController flipC
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                '${listOfWords[i].word}',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                  letterSpacing: 0.5,
-                  shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // IconButton(onPressed: (){
+                  //   audioService.playWord(listOfWords[i].audio);
+                  // }, icon: Icon(Icons.volume_down_outlined)),
+                  AudioButton(audioFile: listOfWords[i].audio, audioService: audioService),
+                  Text(
+                    '${listOfWords[i].word}',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                      letterSpacing: 0.5,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const SizedBox(height: 4),
               Text(

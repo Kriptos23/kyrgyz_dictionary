@@ -60,7 +60,7 @@ class _SozdukScreenState extends State<SozdukScreen>
     _result = "";
     setState(() {});
 
-    ApiService.streamWordExplanation(word, language).listen((chunk) {
+    ApiService.streamWordExplanation3(word, language).listen((chunk) {
       setState(() {
         _result += chunk; // append as it arrives
       });
@@ -121,6 +121,12 @@ class _SozdukScreenState extends State<SozdukScreen>
             Text(
               LocaleKeys.greeting.tr(),
               style: const TextStyle(fontSize: 16),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+              child: Text('Чтобы не допускались ошибки выжидайте полный ответ и избегайте слишком быстрых запросов',style: const TextStyle
+                (fontSize: 16),
+              ),
             ),
             TextField(
               controller: _controller,

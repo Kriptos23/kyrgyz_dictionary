@@ -4,11 +4,7 @@ import 'package:kyrgyz_dictionary/classes/our_user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kyrgyz_dictionary/services/firestore_cloud_database.dart';
 
-import 'package:url_launcher/url_launcher.dart';
-
 class AuthService {
-  final Uri loginPage = Uri.parse("https://kyrgyz-dictionary-6fb97.web.app"); // your Firebase-hosted web app
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
@@ -92,12 +88,7 @@ class AuthService {
       // ✅ Trigger a popup sign-in flow
       // final userCredential = await _auth.signInWithPopup(googleProvider);
       await _auth.setPersistence(Persistence.LOCAL); // must be called BEFORE redirect
-      await launchUrl(
-        loginPage,
-        mode: LaunchMode.externalApplication, // 🔹 opens real browser
-      );
       await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-
       // return null;
       // ✅ Sign in to Firebase
       // final user = userCredential.user;
@@ -200,8 +191,6 @@ class AuthService {
     // ✅ Keep user signed in across tabs and browser reloads
     await _auth.setPersistence(Persistence.LOCAL);
   }
-
-
 
 
 

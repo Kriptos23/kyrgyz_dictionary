@@ -109,6 +109,88 @@ class ApiService{
       }
     }
   }
+
+  //gpt 5 - much better yet pricy
+  static Stream<String> streamWordExplanation3(String word, String language) async* {
+    const url = 'https://api.openai.com/v1/responses';
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer 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',
+    };
+    final body = jsonEncode({
+      "model": "gpt-5",
+      "reasoning": { "effort": "minimal" }, // keeps it faster
+      // "max_output_tokens": 200,             // VERY important for speed
+      "stream": true,
+      "input": [
+        {
+          "role": "system",
+          "content": """
+You are a professional Kyrgyz linguist.
+If unsure, say you are unsure.
+"""
+        },
+        {
+          "role": "user",
+          "content": """
+Explain the word $word from Kyrgyz language chatting with user in $language language, 
+provide 3 synonyms and 3 examples in kyrgyz language. If word is not from kyrgyz language, 
+then you show message saying this is not a kyrgyz word. 
+Shortly give possible source if possible, if not skip.
+Very brief fun facts.
+Always check if the word is from Kyrgyz language, this is crucial, if not say this is 
+              not from kyrgyz language and provide translation to kyrgyz
+
+If the word is NOT Kyrgyz:
+Say: "This is not a Kyrgyz word."
+Then provide its translation into Kyrgyz.
+"""
+        }
+      ]
+    });
+
+    var request = http.Request('POST', Uri.parse(url))
+      ..headers.addAll(headers)
+      ..body = body;
+
+    var streamedResponse = await request.send();
+
+    if (streamedResponse.statusCode == 200) {
+      await for (var line in streamedResponse.stream
+          .transform(utf8.decoder)
+          .transform(const LineSplitter())) {
+
+        if (line.startsWith('data: ')) {
+          final jsonStr = line.substring(6).trim();
+
+          if (jsonStr.isEmpty || jsonStr == '[DONE]') continue;
+
+          try {
+            final data = json.decode(jsonStr);
+
+            if (data['type'] == 'response.output_text.delta') {
+              final delta = data['delta'];
+              if (delta != null) {
+                yield delta;
+              }
+            }
+
+          } catch (e) {
+            continue;
+          }
+        }
+      }
+    } else {
+      final errorBody = await streamedResponse.stream.bytesToString();
+      yield 'Error: ${streamedResponse.statusCode}: $errorBody';
+      print('Эу '
+          'гдееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее'
+          'ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее');
+      print(streamedResponse.request);
+    }
+  }
+
 /// this is old method which gives chatgpt responce as a whole block, gotta wait a lot, kept for reference
 // Future<String> fetchWordExplanation(String word) async {
 //   final url = Uri.parse("https://api.openai.com/v1/chat/completions");
