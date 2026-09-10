@@ -1,15 +1,16 @@
 {
-  "greeting" : "Привет!",
+  "greeting" : "Привет! ₽",
   "gpt_text_field" : "Введите кыргызское слово для объяснения",
   "select_language" : "Выберите язык приложения",
   "language" : "Язык",
   "get_explanation" : "Значение",
   "check" : "Проверить",
-  "lets_play": "Давай поиграем! Введите перевод:",
-  "type_translation": "Введи перевод:",
-  "sign_in_google": "Войти через Google",
-  "sign_in_anon": "Войти анонимно",
-  "sign_out": "Выйти",
+  "lets_play" : "Давай поиграем! Введите перевод:",
+  "type_translation" : "Введи перевод:",
+  "sign_in_google" : "Войти через Google",
+  "sign_in_anon" : "Войти анонимно",
+  "sign_out" : "Выйти",
+  "gpt_caution" : "Чтобы избежать ошибок дождитесь полного ответа и не отправляйте запросы слишком быстро",
   "words":
   {
     "level1" :

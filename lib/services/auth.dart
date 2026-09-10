@@ -87,8 +87,10 @@ class AuthService {
 
       // ✅ Trigger a popup sign-in flow
       // final userCredential = await _auth.signInWithPopup(googleProvider);
-      await _auth.setPersistence(Persistence.LOCAL); // must be called BEFORE redirect
+      // await _auth.setPersistence(Persistence.LOCAL); // must be called BEFORE redirect
       await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+      // handleRedirect();
+
       // return null;
       // ✅ Sign in to Firebase
       // final user = userCredential.user;
@@ -106,33 +108,63 @@ class AuthService {
   }
 
 
-  Future<OurUser?> signInWithGoogleMobile() async{
+  // Future<OurUser?> signInWithGoogleMobile() async{
+  //   try {
+  //
+  //     // ✅ Initialize Google Sign-In
+  //     await _googleSignIn.initialize(serverClientId: "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com");
+  //
+  //     // ✅ Start the authentication flow
+  //     final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
+  //
+  //     // ✅ Get Google tokens
+  //     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  //
+  //     // ✅ Create Firebase credential
+  //     final credential = GoogleAuthProvider.credential(
+  //       idToken: googleAuth.idToken,
+  //       // accessToken: googleAuth.idToken,
+  //     );
+  //
+  //     // ✅ Sign in to Firebase
+  //     final userCredential = await _auth.signInWithCredential(credential);
+  //     final user = userCredential.user;
+  //
+  //     ///Here we are creating collections and documents for the levels counter and more
+  //     DatabaseService databaseService = DatabaseService(uid: user!.uid);
+  //     databaseService.createUserDataOnFirstLogin();
+  //
+  //     return _userFromFirebase(user!);
+  //   } catch (e) {
+  //     print('Google Sign-In error: $e');
+  //     return null;
+  //   }
+  // }
+
+  Future<OurUser?> signInWithGoogleMobile() async {
     try {
-
-      // ✅ Initialize Google Sign-In
-      await _googleSignIn.initialize(serverClientId: "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com");
-
-      // ✅ Start the authentication flow
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
-
-      // ✅ Get Google tokens
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-      // ✅ Create Firebase credential
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        // accessToken: googleAuth.idToken,
+      await _googleSignIn.initialize(
+        serverClientId: '308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com',
       );
 
-      // ✅ Sign in to Firebase
+      final GoogleSignInAccount googleUser =
+      await _googleSignIn.authenticate();
+
+      final GoogleSignInAuthentication googleAuth =
+          googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
       final userCredential = await _auth.signInWithCredential(credential);
       final user = userCredential.user;
+      if (user == null) return null;
 
-      ///Here we are creating collections and documents for the levels counter and more
-      DatabaseService databaseService = DatabaseService(uid: user!.uid);
-      databaseService.createUserDataOnFirstLogin();
+      final databaseService = DatabaseService(uid: user.uid);
+      await databaseService.createUserDataOnFirstLogin();
 
-      return _userFromFirebase(user!);
+      return _userFromFirebase(user);
     } catch (e) {
       print('Google Sign-In error: $e');
       return null;
@@ -159,19 +191,10 @@ class AuthService {
   }
 
   Future<void> handleRedirect() async {
+    if (!kIsWeb) return; // skip on mobile
+
     final result = await FirebaseAuth.instance.getRedirectResult();
 
-    // if (result.user != null) {
-    //   print("User logged in: ${result.user!.email}");
-    //
-    //   final user = result.user;
-    //
-    //   DatabaseService databaseService = DatabaseService(uid: user!.uid);
-    //   databaseService.createUserDataOnFirstLogin();
-    //
-    //   print('Signed in as: ${result.user?.email}');
-    //   // return result;
-    // }
     try{
     if (result.user != null) {
       print("Redirect success: ${result.user!.email}");

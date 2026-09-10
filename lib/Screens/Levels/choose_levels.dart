@@ -33,7 +33,8 @@ class _ChooseLevelsState extends State<ChooseLevels> {
           CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.start, game: 1),
           CircleButton(difficulty: widget.difficulty, level: 'level2', listOfWords: loadWords(1), alignment: MainAxisAlignment
               .center, game: 2),
-
+          CircleButton(difficulty: widget.difficulty, level: 'level3', listOfWords: easyWords1, alignment: MainAxisAlignment
+              .end, game: 3),
 
           // CircleButton(difficulty: 'easy', level: 'level1', listOfWords: easyWords1, alignment: MainAxisAlignment.end, game: 1),
           // CircleButton(difficulty: widget.difficulty, level: 'level1', listOfWords: loadWords(1), alignment: MainAxisAlignment

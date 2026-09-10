@@ -194,7 +194,7 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
                     child: CardSwiper(
                       controller: cardSwiperController,
                       isDisabled: _onSwipe(0),
-                      cardsCount: widget.listOfWords!.length,
+                      cardsCount: widget.listOfWords.length,
                       cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
                           buildFlipCards(widget.listOfWords, readyUrls, flipCardController)[index],
                       onSwipe: (previousIndex, currentIndex, direction) {
@@ -225,7 +225,7 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white ,side: BorderSide(color: Colors.black)),
                     onPressed: () {
-                      if (_textController.text.trim() == widget.listOfWords![cardIndex].rusTrans!.tr()) {
+                      if (_textController.text.trim() == widget.listOfWords[cardIndex].rusTrans!.tr()) {
                         widget.listOfWords![cardIndex].changeColorIfRight = Colors.green;
                         widget.listOfWords![cardIndex].containerFrontColor = Colors.green.shade50;
                         // buildFlipCards()[0].toggleCard();
@@ -242,8 +242,8 @@ class _LearningWordsTemplateScreenState extends State<LearningWordsTemplateScree
                         );
 
                         setState(() {
-                          if (!widget.listOfWords![cardIndex].isCorrectlyAnswered) {
-                            widget.listOfWords![cardIndex].isCorrectlyAnswered = true;
+                          if (!widget.listOfWords![cardIndex].isCorrectlyAnswered) {//I don't fucking need this
+                            widget.listOfWords![cardIndex].isCorrectlyAnswered = true;//I don't fucking need this
                             rightAnswersCounter++;
                             onCorrectAnswer();
 

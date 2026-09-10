@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:cloud_functions/cloud_functions.dart';
 
 class ApiService{
-
 
   static Stream<String> streamWordExplanation(String word, String language) async* {
     const url = 'https://api.openai.com/v1/chat/completions';
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer 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',
+      'Bearer OPEN-AI-API',
     };
     final body = jsonEncode({
       "model": "gpt-4o-mini", //-4o-mini
@@ -67,7 +67,7 @@ class ApiService{
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer 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',
+      'Bearer OPEN-AI-API',
     };
     final body = jsonEncode({
       "model": "gpt-4o-mini", //-4o-mini
@@ -116,7 +116,7 @@ class ApiService{
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer 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',
+      'Bearer OPEN-AI-API',
     };
     final body = jsonEncode({
       "model": "gpt-5",
@@ -154,12 +154,18 @@ Then provide its translation into Kyrgyz.
       ..headers.addAll(headers)
       ..body = body;
 
+
+
     var streamedResponse = await request.send();
+
+    print("HTTP STATUS: ${streamedResponse.statusCode}");
 
     if (streamedResponse.statusCode == 200) {
       await for (var line in streamedResponse.stream
           .transform(utf8.decoder)
           .transform(const LineSplitter())) {
+
+        print("RAW LINE: $line");
 
         if (line.startsWith('data: ')) {
           final jsonStr = line.substring(6).trim();
@@ -177,7 +183,7 @@ Then provide its translation into Kyrgyz.
             }
 
           } catch (e) {
-            continue;
+            print("PARSER ERROR: $e");
           }
         }
       }
@@ -191,6 +197,38 @@ Then provide its translation into Kyrgyz.
     }
   }
 
+  //This is method using Firebase Cloud functions from Codex
+  static Stream<String> streamWordExplanation4(
+      String word,
+      String language,
+      ) async* {
+    final callable = FirebaseFunctions.instance
+        .httpsCallable('explainKyrgyzWord');
+
+    var receivedChunks = false;
+
+    final stream = callable.stream<String, Map<String, dynamic>>({
+      'word': word,
+      'language': language,
+    });
+
+    await for (final event in stream) {
+      if (event is Chunk<String, Map<String, dynamic>>) {
+        receivedChunks = true;
+        yield event.partialData;
+      }
+
+      if (event is Result<String, Map<String, dynamic>> &&
+          !receivedChunks) {
+        final text = event.result.data['text'];
+
+        if (text is String) {
+          yield text;
+        }
+      }
+    }
+  }
+
 /// this is old method which gives chatgpt responce as a whole block, gotta wait a lot, kept for reference
 // Future<String> fetchWordExplanation(String word) async {
 //   final url = Uri.parse("https://api.openai.com/v1/chat/completions");
@@ -199,7 +237,7 @@ Then provide its translation into Kyrgyz.
 //     url,
 //     headers: {
 //       "Content-Type": "application/json",
-//       "Authorization": "Bearer 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", // put your real key here
+//       "Authorization": "Bearer OPEN-AI-API", // put your real key here
 //     },
 //     body: jsonEncode({
 //       "model": "gpt-4o",

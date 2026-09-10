@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kyrgyz_dictionary/services/auth.dart';
 import '../../widgets/botttom_nav_bar_widget.dart';
-
+import 'package:flutter/foundation.dart';
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -14,7 +14,9 @@ class _SignInState extends State<SignIn> {
   AuthService _auth = AuthService(); //auth obj from our self-made class to use sign-in functions
 
   Future<void> _handleRedirect() async {
-    await _auth.handleRedirect();
+    if(kIsWeb){
+      await _auth.handleRedirect();
+    }
   }
 
   @override
@@ -29,7 +31,9 @@ class _SignInState extends State<SignIn> {
     //     print('nothing happened, no user ;(');
     //   }
     // });
-    _handleRedirect();
+    if (kIsWeb) {
+      _handleRedirect(); // only runs on Web
+    }
     // wait5sec();
     // _auth.handleRedirect();
 
@@ -38,87 +42,127 @@ class _SignInState extends State<SignIn> {
     // _auth.handleRedirect();
   }
 
-  // void wait5sec()async{
-  //   await Future.delayed(const Duration(milliseconds: 250));
-  //   _auth.handleRedirect();
-  // }
+  void wait5sec()async{
+    await Future.delayed(const Duration(milliseconds: 250));
+    _auth.handleRedirect();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Container(color: Colors.white,),
+        ),
+        Positioned.fill(
+          // bottom: 500,
+          child: Transform.translate(
+            offset: Offset(0, 150),
+            child: Image.asset(
+              "assets/img/background.png",
+              fit: BoxFit.cover,
+              alignment: Alignment(0, 0.2),
+            ),
+          ),
+        ),
 
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 120,
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: GestureDetector(
-                  child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        // color: Color(0xFFDAD8D8),
-                        // color: niceColor,
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(35),
-                        border: Border.all(color: Colors.blue, width: 3),
-                        boxShadow: [
-                          BoxShadow(
+        SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 100,),
+                Container(
+                  height: 120,
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(35),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(35),
+                      onTap: () async {
+                        dynamic result = await _auth.signInWithGoogle();
+                        if (result == null) {
+                          print('error signing in');
+                        } else {
+                          print('signed in');
+                          print(result.uid);
+                        }
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(35),
+                          border: Border.all(color: Colors.blue, width: 3),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/img/google.png',
+                                width: 30,
+                                height: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  color: Colors.blue.shade900,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                  child: TextButton(
+                    onPressed: () async {
+                      dynamic result = await _auth.signInAnon();
+                      if (result == null) {
+                        print('error signing in');
+                      } else {
+                        print('signed in');
+                        print(result.uid);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.blue.shade900,
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        shadows: [
+                          Shadow(
                             color: Colors.black.withOpacity(0.2),
-                            blurRadius: 12,
-                            offset: const Offset(0, 6),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
                           ),
                         ],
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/img/google.png',
-                            width: 30,
-                            height: 30,
-                          ),
-                          SizedBox(width: 10,),
-                          Text('Sign in with Google', style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight
-                              .w400, shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ]),),
-                        ],
-                      )),
-                  onTap: () async {
-                    dynamic result = await _auth.signInWithGoogle(); //method from auth.dart, should return null or OurUser obj
-                    if (result == null) {
-                      print('error signing in');
-                    } else {
-                      print('signed in');
-                      print(result.uid);
-                    }
-                  }),
+                    ),
+                    child: Text('Sign in Anonymously'),
+                  ),
+                ),
+                Text('Гугл вход на айфоне не работает\nВходите анонимно, буквально потратил 2 дня\nэта фигня не решается\n test 8',
+                    style:
+                TextStyle(color:
+                Colors
+                    .blue
+                    .shade900, fontWeight: FontWeight.w500,
+                    shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ])),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: GestureDetector(
-                  child: Text('Sign in Anonymously', style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.w500,
-                      shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ])),
-                  onTap: () async {
-                    dynamic result = await _auth.signInAnon(); //method from auth.dart, should return null or OurUser obj
-                    if (result == null) {
-                      print('error signing in');
-                    } else {
-                      print('signed in');
-                      print(result.uid);
-                    }
-                  }),
-            ),
-            Text('Гугл вход на айфоне не работает\nВходите анонимно, буквально потратил 2 дня\nэта фигня не решается\n test 5',
-                style:
-            TextStyle(color:
-            Colors
-                .blue
-                .shade900, fontWeight: FontWeight.w500,
-                shadows: [Shadow(color: Colors.black.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5),), ])),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

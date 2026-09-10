@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kyrgyz_dictionary/Screens/match_words_template.dart';
 import 'package:kyrgyz_dictionary/Screens/quiz_on_words.dart';
 
 import '../Screens/learning_words_template_screen.dart';
@@ -101,6 +102,19 @@ class CircleButton extends StatelessWidget {
                     ),
                   );
                   break;
+                case 3:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MatchWordsTemplate(
+                        listOfWords: listOfWords,
+                        // difficulty: difficulty,
+                        // level: level,
+                        // uid: uid,
+                      ),
+                    ),
+                  );
+
               }
 
             } catch (e) {

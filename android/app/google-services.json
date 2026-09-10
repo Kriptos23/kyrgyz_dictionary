@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "308251536087-0e20rk3bjnnurds4jv9b132vp2tocs5v.apps.googleusercontent.com",
+          "client_id": "308251536087-p1kmuecvmntjqg46u1ul2v9kktpi04ii.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.danielkuvan.kyrgyz_dictionary",
-            "certificate_hash": "a940d24114461505baf6fee5f68a3a9b6713286e"
+            "certificate_hash": "f1fedddf0deeb0907c4be78a2994768dec16035f"
           }
         },
         {
@@ -37,6 +37,57 @@
             {
               "client_id": "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "308251536087-sbi4uv7viel2r1thr0dh2bl3mdiekrp6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kyrgyzDictionary"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308251536087:android:1aafbd653dee2383e11e92",
+        "android_client_info": {
+          "package_name": "com.example.kyrgyz_dictionary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308251536087-sl5g5ccnq4evbk199jrppce3946vsufn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kyrgyz_dictionary",
+            "certificate_hash": "f1fedddf0deeb0907c4be78a2994768dec16035f"
+          }
+        },
+        {
+          "client_id": "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIqfRVIRjB6ZbLvPsdOF8Ve2tYz774B1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308251536087-2o97glujvbvhfgglea6hsugs20q6urdf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "308251536087-sbi4uv7viel2r1thr0dh2bl3mdiekrp6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kyrgyzDictionary"
+              }
             }
           ]
         }

@@ -35,7 +35,7 @@ Future <void> main()async {
   await EasyLocalization.ensureInitialized();
 
   // await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-  await FirebaseAuth.instance.getRedirectResult();
+  // await FirebaseAuth.instance.getRedirectResult();
 
   runApp(
     BlocProvider(
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
 ///RUN next comands whenever you need to update your json translations files
 /*
 flutter pub run easy_localization:generate -S assets/translations
-flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -S assets/translationsf
+flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -S assets/translations
  */
 
 /// To build web and deploy a firebase website, it will return a web link
@@ -105,5 +105,10 @@ await Firebase.initializeApp(
     ),
   );
 
+SHA1: F1:FE:DD:DF:0D:EE:B0:90:7C:4B:E7:8A:29:94:76:8D:EC:16:03:5F
+SHA-256: 97:86:1B:61:40:FF:C7:7F:2B:09:F5:5C:BC:04:3B:4F:D2:86:CF:F8:1D:0A:38:07:0A:36:D2:28:6E:E6:9E:75
+
  */
+
+
 

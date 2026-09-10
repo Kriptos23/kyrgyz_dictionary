@@ -5,7 +5,7 @@ class Words{
 
   static const Color constContainerBackColor = Color(0xFF272727);
 
-  String? word;//words itself
+  String word;//words itself
   String? rusTrans;//translation
   String? engTrans;//translation
   String? img;//image of word, not yet implemented

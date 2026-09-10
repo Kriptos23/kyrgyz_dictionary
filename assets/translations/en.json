@@ -1,5 +1,5 @@
 {
-  "greeting" : "Hello!",
+  "greeting" : "Hello! $",
   "gpt_text_field" : "Enter a Kyrgyz word to get explanation",
   "select_language" : "Select your language",
   "language" : "Language",
@@ -10,6 +10,7 @@
   "sign_in_google" : "Sign in with Google",
   "sign_in_anon" : "Sign in Anonymously",
   "sign_out" : "Sign out",
+  "gpt_caution" : "To avoid errors wait for the full response, and avoid sending requests too quickly",
   "words":
   {
     "level1" :
